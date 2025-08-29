@@ -461,15 +461,61 @@
                 </div>
 
                 <div class="btn-group">
+                    <button class="btn" onclick="showPage(6)">次へ（31-40問目）</button>
+                </div>
+            </div>
+
+            <!-- ページ6: 詳細診断画面（31-40問） -->
+        <div class="page" id="page6">
+            <div class="ribbon-header">
+                <div class="ribbon">TAROT READING</div>
+            </div>
+
+            <div class="diagnosis-container">
+                <div class="progress-info">
+                    詳細診断（31-40問目）
+                </div>
+
+                <div id="questions-container-detailed3">
+                    <!-- 質問はJavaScriptで動的に生成 -->
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn" onclick="showPage(7)">次へ（41-50問目）</button>
+                </div>
+            </div>
+
+            <button class="btn btn-secondary" onclick="showPage(5)">戻る</button>
+        </div>
+
+        <!-- ページ7: 詳細診断画面（41-50問） -->
+        <div class="page" id="page7">
+            <div class="ribbon-header">
+                <div class="ribbon">TAROT READING</div>
+            </div>
+
+            <div class="diagnosis-container">
+                <div class="progress-info">
+                    詳細診断（41-50問目）
+                </div>
+
+                <div id="questions-container-detailed4">
+                    <!-- 質問はJavaScriptで動的に生成 -->
+                </div>
+
+                <div class="btn-group">
                     <button class="btn" onclick="completeDiagnosis(true)">診断完了</button>
                 </div>
             </div>
 
+            <button class="btn btn-secondary" onclick="showPage(6)">戻る</button>
+        </div>
+
             <button class="btn btn-secondary" onclick="showPage(4)">戻る</button>
         </div>
 
-        <!-- ページ6: 診断結果画面 -->
-        <div class="page" id="page6">
+       <!-- ページ8: 診断結果画面 -->
+        <div class="page" id="page8">
             <div class="ribbon-header">
                 <div class="ribbon">TAROT READING</div>
             </div>
@@ -728,6 +774,79 @@
             }
         ];
 
+        const detailedQuestions3 = [
+            {
+                question: "理想の職場環境は？",
+                optionA: "変化に富んだ刺激的な環境",
+                scoreA: "ruby_fox",
+                optionB: "高い目標に向かえる環境",
+                scoreB: "sapphire_hawk"
+            },
+            {
+                question: "チームでの役割は？",
+                optionA: "メンバーをまとめる調整役",
+                scoreA: "silver_wolf",
+                optionB: "皆をサポートする縁の下の力持ち",
+                scoreB: "emerald_deer"
+            },
+            {
+                question: "仕事のストレスは？",
+                optionA: "安定性への不安",
+                scoreA: "gold_bear",
+                optionB: "創造性が発揮できない時",
+                scoreB: "rainbow_butterfly"
+            },
+            {
+                question: "新しいプロジェクトでは？",
+                optionA: "積極的にアイデアを提案",
+                scoreA: "ruby_fox",
+                optionB: "全体像を把握してから参加",
+                scoreB: "sapphire_hawk"
+            },
+            {
+                question: "同僚との関係は？",
+                optionA: "深い友情を築きたい",
+                scoreA: "silver_wolf",
+                optionB: "互いを尊重し合う関係",
+                scoreB: "emerald_deer"
+            },
+            {
+                question: "キャリアの考え方は？",
+                optionA: "着実にステップアップ",
+                scoreA: "gold_bear",
+                optionB: "自分らしさを大切に",
+                scoreB: "rainbow_butterfly"
+            },
+            {
+                question: "会議での発言は？",
+                optionA: "思いついたらすぐに発言",
+                scoreA: "ruby_fox",
+                optionB: "全体を考えた建設的な意見",
+                scoreB: "sapphire_hawk"
+            },
+            {
+                question: "職場の人間関係で大切なのは？",
+                optionA: "お互いの信頼関係",
+                scoreA: "silver_wolf",
+                optionB: "相手への思いやり",
+                scoreB: "emerald_deer"
+            },
+            {
+                question: "働く上でのモチベーションは？",
+                optionA: "安心して働ける環境",
+                scoreA: "gold_bear",
+                optionB: "自己表現できる喜び",
+                scoreB: "rainbow_butterfly"
+            },
+            {
+                question: "将来の目標は？",
+                optionA: "常に新しいことに挑戦し続ける",
+                scoreA: "ruby_fox",
+                optionB: "多くの人に信頼される存在になる",
+                scoreB: "sapphire_hawk"
+            }
+        ];
+
         // 守護者タイプ情報
         const guardianTypes = {
             ruby_fox: { 
@@ -790,8 +909,12 @@
     } else if (pageNumber === 4) {
         loadQuestions(detailedQuestions1, 'questions-container-detailed1');
     } else if (pageNumber === 5) {
-        loadQuestions(detailedQuestions2, 'questions-container-detailed2');
-    }
+                loadQuestions(detailedQuestions2, 'questions-container-detailed2');
+            } else if (pageNumber === 6) {
+                loadQuestions(detailedQuestions3, 'questions-container-detailed3');
+            } else if (pageNumber === 7) {
+                loadQuestions(detailedQuestions4, 'questions-container-detailed4');
+            }
 }
 
         // 質問を読み込み
@@ -900,7 +1023,7 @@
             document.getElementById('result-description').textContent = guardian.description;
             document.getElementById('result-interpretation').textContent = guardian.interpretation;
             
-            showPage(6); // 結果ページを表示
+            showPage(8); // 結果ページを表示
         }
 
         // 結果をシェア
