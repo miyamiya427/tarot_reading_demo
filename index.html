@@ -776,20 +776,23 @@
 
         // ページ切り替え
         function showPage(pageNumber) {
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
-            document.getElementById(`page${pageNumber}`).classList.add('active');
-            
-            // 各ページで必要な質問を読み込み
-            if (pageNumber === 3) {
-                loadQuestions(basicQuestions, 'questions-container');
-            } else if (pageNumber === 4) {
-                loadQuestions(detailedQuestions1, 'questions-container-detailed1');
-            } else if (pageNumber === 5) {
-                loadQuestions(detailedQuestions2, 'questions-container-detailed2');
-            }
-        }
+    document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+    });
+    document.getElementById(`page${pageNumber}`).classList.add('active');
+    
+    // ページ最上部にスクロール
+    window.scrollTo(0, 0);
+    
+    // 各ページで必要な質問を読み込み
+    if (pageNumber === 3) {
+        loadQuestions(basicQuestions, 'questions-container');
+    } else if (pageNumber === 4) {
+        loadQuestions(detailedQuestions1, 'questions-container-detailed1');
+    } else if (pageNumber === 5) {
+        loadQuestions(detailedQuestions2, 'questions-container-detailed2');
+    }
+}
 
         // 質問を読み込み
         function loadQuestions(questions, containerId) {
