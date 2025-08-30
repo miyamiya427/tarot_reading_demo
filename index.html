@@ -518,8 +518,6 @@
             <button class="btn btn-secondary" onclick="showPage(6)">戻る</button>
         </div>
 
-            <button class="btn btn-secondary" onclick="showPage(4)">戻る</button>
-        </div>
 
        <!-- ページ8: 診断結果画面 -->
         <div class="page" id="page8">
@@ -1017,6 +1015,10 @@
                     questionNumber = index + 11; // 11-20問目
                 } else if (containerId === 'questions-container-detailed2') {
                     questionNumber = index + 21; // 21-30問目
+                } else if (containerId === 'questions-container-detailed3') {
+                    questionNumber = index + 31; // 31-40問目
+                } else if (containerId === 'questions-container-detailed4') {
+                    questionNumber = index + 41; // 41-50問目
                 }
                 
                 questionDiv.innerHTML = `
