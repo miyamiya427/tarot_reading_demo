@@ -1211,10 +1211,12 @@
         let currentGenre = '';
 
         // タロット占いを開始
-        function startTarotReading(genre) {
+       function startTarotReading(genre) {
             currentGenre = genre;
             selectedCards = [];
-            showPage(10);
+            // 一旦アラートで確認（後でページ10を作成）
+            alert(`${genre}の占いを開始します。カード選択画面は次回実装予定です。`);
+            showPage(2); // メニューに戻る
         }
 
         // 初期化
