@@ -855,6 +855,79 @@
             }
         ];
 
+        const detailedQuestions4 = [
+            {
+                question: "人生の目標は？",
+                optionA: "常に新しいことに挑戦し続ける",
+                scoreA: "ruby_fox",
+                optionB: "多くの人に信頼される存在になる",
+                scoreB: "sapphire_hawk"
+            },
+            {
+                question: "困難に直面した時は？",
+                optionA: "仲間と協力して乗り越える",
+                scoreA: "silver_wolf",
+                optionB: "自分なりのペースで解決する",
+                scoreB: "emerald_deer"
+            },
+            {
+                question: "成功の定義は？",
+                optionA: "安定した基盤を築くこと",
+                scoreA: "gold_bear",
+                optionB: "自由に自分を表現できること",
+                scoreB: "rainbow_butterfly"
+            },
+            {
+                question: "10年後の自分は？",
+                optionA: "予想もつかない場所にいる",
+                scoreA: "ruby_fox",
+                optionB: "理想に向かって着実に進歩している",
+                scoreB: "sapphire_hawk"
+            },
+            {
+                question: "大切な人を失った時は？",
+                optionA: "みんなで支え合って乗り越える",
+                scoreA: "silver_wolf",
+                optionB: "時間をかけて心を癒す",
+                scoreB: "emerald_deer"
+            },
+            {
+                question: "老後の過ごし方は？",
+                optionA: "安心できる環境でゆっくり",
+                scoreA: "gold_bear",
+                optionB: "新しい趣味や創作活動",
+                scoreB: "rainbow_butterfly"
+            },
+            {
+                question: "人生で学びたいことは？",
+                optionA: "様々な経験から得る知恵",
+                scoreA: "ruby_fox",
+                optionB: "深い専門知識や哲学",
+                scoreB: "sapphire_hawk"
+            },
+            {
+                question: "社会に貢献するなら？",
+                optionA: "チームワークで課題解決",
+                scoreA: "silver_wolf",
+                optionB: "個々のニーズに寄り添う支援",
+                scoreB: "emerald_deer"
+            },
+            {
+                question: "理想の世界は？",
+                optionA: "変化を受け入れる柔軟な社会",
+                scoreA: "ruby_fox",
+                optionB: "美しさと調和に満ちた世界",
+                scoreB: "rainbow_butterfly"
+            },
+            {
+                question: "最後に大切にしたいのは？",
+                optionA: "信頼できる仲間との絆",
+                scoreA: "silver_wolf",
+                optionB: "自分らしく生きた証",
+                scoreB: "emerald_deer"
+            }
+        ];
+
         // 守護者タイプ情報
         const guardianTypes = {
             ruby_fox: { 
@@ -1008,7 +1081,7 @@
             if (isDetailed) {
                 // 詳細診断の回答をスコアに追加
                 const detailedCount = Object.keys(detailedAnswers).length;
-                if (detailedCount < 20) { // 詳細診断は20問
+                if (detailedCount < 40) { // 詳細診断は40問
                     alert('詳細診断の全ての質問にお答えください。');
                     return;
                 }
