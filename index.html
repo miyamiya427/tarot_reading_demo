@@ -385,6 +385,14 @@
                 <div class="animal-icon">🦋</div>
             </div>
 
+            <!-- 既存の守護神表示エリア -->
+            <div id="existing-guardian" style="display: none; text-align: center; margin: 20px 0; padding: 20px; background: rgba(255, 255, 255, 0.9); border-radius: 15px; color: #4a6fa5;">
+                <div style="font-size: 14px; margin-bottom: 10px;">あなたの守護神</div>
+                <div style="font-size: 24px;" id="current-guardian-emoji">🦊</div>
+                <div style="font-size: 16px; font-weight: bold;" id="current-guardian-name">紅玉の狐</div>
+                <div style="font-size: 12px; margin-top: 5px; color: #6c757d;" id="current-guardian-date">2024年1月1日に診断</div>
+            </div>
+
             <div style="text-align: center; margin: 40px 0;">
                 <div style="margin-bottom: 20px; font-size: 14px; opacity: 0.9;">
                     ＼ 性格タイプを登録 ／
@@ -903,8 +911,13 @@
     // ページ最上部にスクロール
     window.scrollTo(0, 0);
     
-    // 各ページで必要な質問を読み込み
-    if (pageNumber === 3) {
+    // ページ2（メニュー）表示時に守護神をチェック
+            if (pageNumber === 2) {
+                checkExistingGuardian();
+            }
+            
+            // 各ページで必要な質問を読み込み
+            if (pageNumber === 3) {
         loadQuestions(basicQuestions, 'questions-container');
     } else if (pageNumber === 4) {
         loadQuestions(detailedQuestions1, 'questions-container-detailed1');
@@ -1017,6 +1030,17 @@
 
         // 結果を表示
         function showResult(guardian) {
+            // 診断結果をlocalStorageに保存
+            const guardianData = {
+                name: guardian.name,
+                emoji: guardian.emoji,
+                traits: guardian.traits,
+                description: guardian.description,
+                interpretation: guardian.interpretation,
+                timestamp: new Date().toISOString()
+            };
+            localStorage.setItem('guardianResult', JSON.stringify(guardianData));
+            
             document.getElementById('result-emoji').textContent = guardian.emoji;
             document.getElementById('result-name').textContent = guardian.name;
             document.getElementById('result-traits').textContent = guardian.traits.join('・');
@@ -1048,8 +1072,32 @@
         }
 
         // 初期化
+        // 保存された守護神をチェック
+        function checkExistingGuardian() {
+            const savedResult = localStorage.getItem('guardianResult');
+            if (savedResult) {
+                const guardianData = JSON.parse(savedResult);
+                
+                // 守護神表示エリアを表示
+                document.getElementById('existing-guardian').style.display = 'block';
+                document.getElementById('current-guardian-emoji').textContent = guardianData.emoji;
+                document.getElementById('current-guardian-name').textContent = guardianData.name;
+                
+                // 日付をフォーマット
+                const date = new Date(guardianData.timestamp);
+                const dateString = `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日に診断`;
+                document.getElementById('current-guardian-date').textContent = dateString;
+                
+                // ボタンのテキストを変更
+                const guardianButton = document.querySelector('button[onclick="showPage(3)"]');
+                guardianButton.textContent = '守護神を再診断する';
+            }
+        }
+
+        // 初期化
         document.addEventListener('DOMContentLoaded', function() {
             console.log('森の守護者とタロット占いアプリが読み込まれました');
+            checkExistingGuardian();
         });
     </script>
 </body>
