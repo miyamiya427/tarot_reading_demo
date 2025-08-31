@@ -1029,12 +1029,17 @@
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
     
-    // 追加の強制スクロール処理
+   // 追加の強制スクロール処理
     setTimeout(() => {
         window.scrollTo(0, 0);
         document.body.scrollTop = 0;
         document.documentElement.scrollTop = 0;
     }, 50);
+    
+    // さらなる強制処理
+    setTimeout(() => {
+        window.scrollTo(0, 0);
+    }, 100);
     
     // ページ2（メニュー）表示時に守護神をチェック
             if (pageNumber === 2) {
@@ -1053,8 +1058,13 @@
            } else if (pageNumber === 7) {
                 loadQuestions(detailedQuestions4, 'questions-container-detailed4');
             } else if (pageNumber === 9) {
-                // ジャンル選択画面の初期化処理があれば記述
+                // ジャンル選択画面の初期化処理
                 updateGenreTitle();
+                // ページ9専用のスクロール処理
+                setTimeout(() => {
+                    window.scrollTo(0, 0);
+                    document.documentElement.scrollTop = 0;
+                }, 150);
             }
 }
 
