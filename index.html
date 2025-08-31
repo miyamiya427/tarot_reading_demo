@@ -1030,6 +1030,13 @@
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
     
+    // 追加の強制スクロール処理
+    setTimeout(() => {
+        window.scrollTo(0, 0);
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+    }, 50);
+    
     // ページ2（メニュー）表示時に守護神をチェック
             if (pageNumber === 2) {
                 checkExistingGuardian();
