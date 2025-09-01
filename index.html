@@ -1497,57 +1497,123 @@ function displayCards() {
     const container = document.getElementById('cards-container');
     container.innerHTML = '';
     
-   // 78枚のカードを表示（重なったデッキスタイル）
-        for (let i = 0; i < 78; i++) {
+    // デッキ全体のコンテナを作成
+    const deckContainer = document.createElement('div');
+    deckContainer.style.cssText = `
+        position: relative;
+        width: 80px;
+        height: 120px;
+        margin: 0 auto;
+        cursor: pointer;
+    `;
+    
+    // 重なったカードを10枚表示（デッキ感を演出）
+    for (let i = 0; i < 10; i++) {
         const card = document.createElement('div');
-        card.className = 'tarot-card';
+        card.className = 'deck-card';
         card.style.cssText = `
-            min-width: 60px;
-            height: 90px;
+            position: absolute;
+            width: 80px;
+            height: 120px;
             background: linear-gradient(135deg, #4a6fa5, #6a8fc5);
-            border-radius: 8px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 24px;
-            cursor: pointer;
+            font-size: 32px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transform: rotate(${(Math.random() - 0.5) * 6}deg) translate(${(Math.random() - 0.5) * 4}px, ${(Math.random() - 0.5) * 4}px);
             transition: all 0.3s ease;
-            border: 2px solid transparent;
+            z-index: ${10 - i};
         `;
         card.textContent = '🂠';
-        card.onclick = () => selectCard(i);
         
-        // ホバー効果
-        card.onmouseover = () => {
-            card.style.transform = 'scale(1.05)';
-            card.style.borderColor = 'white';
-        };
-        card.onmouseout = () => {
-            card.style.transform = 'scale(1)';
-            card.style.borderColor = 'transparent';
-        };
+        // 一番上のカード（i=0）のみクリック可能
+        if (i === 0) {
+            card.style.zIndex = '20';
+            card.style.cursor = 'pointer';
+            card.style.transform = 'rotate(0deg) translate(0px, 0px) scale(1.1)';
+            card.style.borderColor = 'rgba(255, 255, 255, 0.8)';
+            card.style.boxShadow = '0 6px 12px rgba(0, 0, 0, 0.3)';
+            
+            // ホバー効果
+            card.onmouseover = () => {
+                card.style.transform = 'rotate(0deg) translate(0px, -5px) scale(1.15)';
+                card.style.boxShadow = '0 8px 16px rgba(0, 0, 0, 0.4)';
+            };
+            card.onmouseout = () => {
+                card.style.transform = 'rotate(0deg) translate(0px, 0px) scale(1.1)';
+                card.style.boxShadow = '0 6px 12px rgba(0, 0, 0, 0.3)';
+            };
+            
+            // クリックイベント
+            card.onclick = () => selectTopCard();
+        }
         
-        container.appendChild(card);
+        deckContainer.appendChild(card);
     }
+    
+    container.appendChild(deckContainer);
+    
+    // デッキの説明テキスト
+    const instructionText = document.createElement('div');
+    instructionText.style.cssText = `
+        text-align: center;
+        margin-top: 20px;
+        font-size: 12px;
+        color: #6c757d;
+        font-style: italic;
+    `;
+    instructionText.textContent = '一番上のカードをタップしてください';
+    container.appendChild(instructionText);
 }
 
-function selectCard(cardIndex) {
+function selectTopCard() {
+    // ランダムにカードを選択（78枚から）
+    const randomCardIndex = Math.floor(Math.random() * 78);
+    
     // 選択時間を記録
     const selectionTime = Date.now() - cardSelectionStartTime;
     totalHesitationTime += selectionTime;
     
     // カードIDを保存
-    selectedCardIds.push(cardIndex);
+    selectedCardIds.push(randomCardIndex);
     
-    if (currentCardStep < 3) {
-        // 次のカードへ
-        currentCardStep++;
-        cardSelectionStartTime = Date.now(); // 次のカード選択時間をリセット
-        updateCardSelectionTitle();
-    } else {
-        // 3枚選択完了 → 結果画面へ
-        showTarotResult();
+    // カードめくりアニメーション
+    animateCardFlip();
+    
+    // 0.5秒後に次のステップへ
+    setTimeout(() => {
+        if (currentCardStep < 3) {
+            // 次のカードへ
+            currentCardStep++;
+            cardSelectionStartTime = Date.now();
+            updateCardSelectionTitle();
+            displayCards(); // デッキを再表示
+        } else {
+            // 3枚選択完了 → 結果画面へ
+            showTarotResult();
+        }
+    }, 500);
+}
+
+function animateCardFlip() {
+    const topCard = document.querySelector('.deck-card[style*="z-index: 20"]');
+    if (topCard) {
+        // カードをめくるアニメーション
+        topCard.style.transform = 'rotate(180deg) translate(100px, -50px) scale(0.8)';
+        topCard.style.opacity = '0';
+        
+        // 選択されたカードの情報を一瞬表示
+        const selectedCard = tarotCards[selectedCardIds[selectedCardIds.length - 1]];
+        topCard.innerHTML = `
+            <div style="font-size: 12px; text-align: center; line-height: 1.2;">
+                ${selectedCard.emoji}<br>
+                <span style="font-size: 8px;">${selectedCard.name}</span>
+            </div>
+        `;
     }
 }
 
