@@ -1111,6 +1111,13 @@
                     document.documentElement.scrollTop = 0;
                 }, 150);
             }
+
+            } else if (pageNumber === 10) {
+                // シャッフル画面の初期化
+                setTimeout(() => {
+                    startShuffleAnimation();
+                }, 100);
+            }
 }
 
         // ジャンル選択画面のタイトル更新
