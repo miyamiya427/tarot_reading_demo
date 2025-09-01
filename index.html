@@ -1273,16 +1273,15 @@
         }
 
         function startTarotReading(genre) {
-            currentGenre = genre;
-            selectedTarotCards = [];
-            shuffleStartTime = Date.now();
-            coordinateSeed = 0;
-            totalHesitationTime = 0;
-            
-            // シャッフル画面に移行（一旦アラートで確認）
-            alert(`${genre}の占いを開始します。シャッフル画面は次回実装予定です。`);
-            showPage(2); // メニューに戻る
-        }
+    currentGenre = genre;
+    selectedTarotCards = [];
+    shuffleStartTime = Date.now();
+    coordinateSeed = 0;
+    totalHesitationTime = 0;
+    
+    // シャッフル画面に移行
+    showPage(10); // ページ10（シャッフル画面）へ
+}
         
         // 初期化
         // 保存された守護神をチェック
