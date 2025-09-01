@@ -1466,14 +1466,29 @@
     showPage(11);
 }
 
-        // カード選択画面の初期化
-let currentCardStep = 1; // 1:今日の状況, 2:今日の展開, 3:アドバイス
-let selectedCardIds = []; // 選択されたカードのID
+        let shuffledCardOrder = []; // シャッフルされたカードの順番
+
+function shuffleCards() {
+    // 78枚のカードをシャッフル
+    shuffledCardOrder = [];
+    for (let i = 0; i < 78; i++) {
+        shuffledCardOrder.push(i);
+    }
+    
+    // Fisher-Yatesアルゴリズムでシャッフル
+    for (let i = shuffledCardOrder.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledCardOrder[i], shuffledCardOrder[j]] = [shuffledCardOrder[j], shuffledCardOrder[i]];
+    }
+}
 
 function initializeCardSelection() {
     currentCardStep = 1;
     selectedCardIds = [];
     cardSelectionStartTime = Date.now();
+    
+    // カードをシャッフル
+    shuffleCards();
     
     // カードタイトルを更新
     updateCardSelectionTitle();
@@ -1497,76 +1512,87 @@ function displayCards() {
     const container = document.getElementById('cards-container');
     container.innerHTML = '';
     
-    // デッキ全体のコンテナを作成
-    const deckContainer = document.createElement('div');
-    deckContainer.style.cssText = `
-        position: relative;
-        width: 80px;
-        height: 120px;
-        margin: 0 auto;
+    // シャッフルボタン
+    const shuffleButton = document.createElement('button');
+    shuffleButton.textContent = 'カードをシャッフル';
+    shuffleButton.style.cssText = `
+        background: rgba(255, 255, 255, 0.9);
+        color: #4a6fa5;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 15px;
+        font-size: 12px;
         cursor: pointer;
+        margin-bottom: 15px;
+        transition: all 0.3s ease;
+    `;
+    shuffleButton.onclick = () => {
+        shuffleCards();
+        displayCards();
+    };
+    container.appendChild(shuffleButton);
+    
+    // カードグリッドコンテナ
+    const cardsGrid = document.createElement('div');
+    cardsGrid.style.cssText = `
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 8px;
+        max-height: 300px;
+        overflow-y: auto;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
     `;
     
-    // 重なったカードを10枚表示（デッキ感を演出）
-    for (let i = 0; i < 10; i++) {
+    // シャッフルされた78枚のカードを表示
+    shuffledCardOrder.forEach((cardIndex, i) => {
         const card = document.createElement('div');
-        card.className = 'deck-card';
+        card.className = 'tarot-card';
         card.style.cssText = `
-            position: absolute;
-            width: 80px;
-            height: 120px;
+            width: 40px;
+            height: 60px;
             background: linear-gradient(135deg, #4a6fa5, #6a8fc5);
-            border-radius: 12px;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 32px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transform: rotate(${(Math.random() - 0.5) * 6}deg) translate(${(Math.random() - 0.5) * 4}px, ${(Math.random() - 0.5) * 4}px);
+            font-size: 16px;
+            cursor: pointer;
             transition: all 0.3s ease;
-            z-index: ${10 - i};
+            border: 2px solid transparent;
         `;
         card.textContent = '🂠';
+        card.onclick = () => selectCard(cardIndex);
         
-        // 一番上のカード（i=0）のみクリック可能
-        if (i === 0) {
-            card.style.zIndex = '20';
-            card.style.cursor = 'pointer';
-            card.style.transform = 'rotate(0deg) translate(0px, 0px) scale(1.1)';
-            card.style.borderColor = 'rgba(255, 255, 255, 0.8)';
-            card.style.boxShadow = '0 6px 12px rgba(0, 0, 0, 0.3)';
-            
-            // ホバー効果
-            card.onmouseover = () => {
-                card.style.transform = 'rotate(0deg) translate(0px, -5px) scale(1.15)';
-                card.style.boxShadow = '0 8px 16px rgba(0, 0, 0, 0.4)';
-            };
-            card.onmouseout = () => {
-                card.style.transform = 'rotate(0deg) translate(0px, 0px) scale(1.1)';
-                card.style.boxShadow = '0 6px 12px rgba(0, 0, 0, 0.3)';
-            };
-            
-            // クリックイベント
-            card.onclick = () => selectTopCard();
-        }
+        // ホバー効果
+        card.onmouseover = () => {
+            card.style.transform = 'scale(1.1)';
+            card.style.borderColor = 'white';
+            card.style.zIndex = '10';
+        };
+        card.onmouseout = () => {
+            card.style.transform = 'scale(1)';
+            card.style.borderColor = 'transparent';
+            card.style.zIndex = '1';
+        };
         
-        deckContainer.appendChild(card);
-    }
+        cardsGrid.appendChild(card);
+    });
     
-    container.appendChild(deckContainer);
+    container.appendChild(cardsGrid);
     
-    // デッキの説明テキスト
+    // 説明テキスト
     const instructionText = document.createElement('div');
     instructionText.style.cssText = `
         text-align: center;
-        margin-top: 20px;
+        margin-top: 15px;
         font-size: 12px;
         color: #6c757d;
-        font-style: italic;
+        line-height: 1.4;
     `;
-    instructionText.textContent = '一番上のカードをタップしてください';
+    instructionText.innerHTML = `直感でカードを選んでください<br><small>気に入らない並びなら「シャッフル」を押してください</small>`;
     container.appendChild(instructionText);
 }
 
