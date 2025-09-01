@@ -344,6 +344,67 @@
             line-height: 1.8;
         }
 
+        /* タロット結果画面スタイル */
+        .selected-cards-display {
+            margin: 30px 0;
+        }
+
+        .card-row {
+            display: flex;
+            justify-content: space-around;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .selected-card {
+            text-align: center;
+            flex: 1;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 10px;
+            padding: 15px 5px;
+            border: 2px solid #4a6fa5;
+        }
+
+        .card-emoji {
+            font-size: 40px;
+            margin-bottom: 8px;
+        }
+
+        .card-name {
+            font-size: 12px;
+            font-weight: bold;
+            color: #4a6fa5;
+            margin-bottom: 5px;
+        }
+
+        .card-position {
+            font-size: 10px;
+            color: #6c757d;
+        }
+
+        .tarot-result-content {
+            margin: 30px 0;
+        }
+
+        .guardian-integration, .daily-interpretation {
+            margin: 20px 0;
+            padding: 20px;
+            background: #e3f2fd;
+            border-radius: 15px;
+        }
+
+        .guardian-integration h3, .daily-interpretation h3 {
+            color: #4a6fa5;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .guardian-message, .daily-fortune {
+            font-size: 14px;
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+        
         @media (max-width: 375px) {
             /* タロット占い用のCSS */
         .shuffle-container {
@@ -657,7 +718,58 @@
 
         <!-- ページ12: 占い結果画面 -->
         <div class="page" id="page12">
-            <!-- 結果表示画面のHTML -->
+            <div class="ribbon-header">
+                <div class="ribbon">TAROT RESULT</div>
+            </div>
+
+            <div class="diagnosis-container">
+                <div class="result-header">
+                    <h2>今日の運勢</h2>
+                </div>
+
+                <!-- 選択されたカード表示 -->
+                <div class="selected-cards-display">
+                    <div class="card-row">
+                        <div class="selected-card" id="card-1">
+                            <div class="card-emoji">🂠</div>
+                            <div class="card-name">カード1</div>
+                            <div class="card-position">今日の状況</div>
+                        </div>
+                        <div class="selected-card" id="card-2">
+                            <div class="card-emoji">🂠</div>
+                            <div class="card-name">カード2</div>
+                            <div class="card-position">今日の展開</div>
+                        </div>
+                        <div class="selected-card" id="card-3">
+                            <div class="card-emoji">🂠</div>
+                            <div class="card-name">カード3</div>
+                            <div class="card-position">今日のアドバイス</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 占い結果 -->
+                <div class="tarot-result-content">
+                    <div class="guardian-integration">
+                        <h3>あなたの守護神からのメッセージ</h3>
+                        <div id="guardian-message" class="guardian-message">
+                            守護神の特性を活かした今日のアドバイス
+                        </div>
+                    </div>
+
+                    <div class="daily-interpretation">
+                        <h3>今日の運勢</h3>
+                        <div id="daily-fortune" class="daily-fortune">
+                            選択されたカードからの総合的な運勢
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn" onclick="shareResult()">結果をシェア</button>
+                    <button class="btn btn-secondary" onclick="showPage(2)">メニューに戻る</button>
+                </div>
+            </div>
         </div>
 
     <script>
