@@ -626,7 +626,33 @@
 
         <!-- ページ11: カード選択画面 -->
         <div class="page" id="page11">
-            <!-- カード選択画面のHTML -->
+            <div class="ribbon-header">
+                <div class="ribbon">CARD SELECTION</div>
+            </div>
+
+            <div class="diagnosis-container">
+                <div class="result-header">
+                    <h2 id="card-selection-title">1枚目：今日の状況</h2>
+                </div>
+
+                <div style="text-align: center; margin: 40px 0;">
+                    <div style="font-size: 14px; color: #6c757d; margin-bottom: 20px;">
+                        直感でカードを選んでください
+                    </div>
+                    
+                    <div id="cards-container" style="display: flex; overflow-x: auto; gap: 15px; padding: 20px 0; justify-content: flex-start;">
+                        <!-- カードはJavaScriptで生成 -->
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin: 20px 0;">
+                    <div id="selection-progress" style="font-size: 12px; color: #6c757d;">
+                        1/3枚目を選択してください
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-secondary" onclick="showPage(10)">戻る</button>
         </div>
 
         <!-- ページ12: 占い結果画面 -->
