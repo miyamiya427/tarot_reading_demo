@@ -345,6 +345,14 @@
         }
 
         @media (max-width: 375px) {
+            /* タロット占い用のCSS */
+        .shuffle-container {
+            /* シャッフル用スタイル */
+        }
+        
+        .card-selection {
+            /* カード選択用スタイル */
+        }
             .container {
                 padding: 15px;
             }
@@ -587,6 +595,20 @@
                 </div>
             </div>
 
+            <!-- ページ10: カードシャッフル画面 -->
+        <div class="page" id="page10">
+            <!-- シャッフル画面のHTML -->
+        </div>
+
+        <!-- ページ11: カード選択画面 -->
+        <div class="page" id="page11">
+            <!-- カード選択画面のHTML -->
+        </div>
+
+        <!-- ページ12: 占い結果画面 -->
+        <div class="page" id="page12">
+            <!-- 結果表示画面のHTML -->
+        </div>
 
     <script>
         // 詳細診断の回答を保存する変数
@@ -1244,6 +1266,22 @@
         let selectedCards = [];
         let currentGenre = '';
 
+        // タロットカードデータ（78枚）
+const tarotCards = [
+    // 大アルカナ（22枚）
+    { id: 0, name: "愚者", emoji: "🃏", meaning: "新しい始まり、冒険心" },
+    { id: 1, name: "魔術師", emoji: "🎩", meaning: "意志の力、創造性" },
+    // ... 残り76枚のデータ
+];
+
+        // タロット占い用の新しい変数
+        let shuffleStartTime = 0;
+        let shuffleDuration = 0;
+        let coordinateSeed = 0;
+        let totalHesitationTime = 0;
+        let cardSelectionStartTime = 0;
+        let selectedTarotCards = [];
+
         // タロット占いを開始
        function startTarotReading(genre) {
             currentGenre = genre;
@@ -1253,6 +1291,19 @@
             showPage(2); // メニューに戻る
         }
 
+        // タロット占い関数群
+        function generateTarotSeed() {
+            // シード生成ロジック
+        }
+
+        function selectRandomCards(seed) {
+            // カード選択ロジック
+        }
+
+        function startShuffleAnimation() {
+            // シャッフルアニメーション
+        }
+        
         // 初期化
         document.addEventListener('DOMContentLoaded', function() {
             console.log('森の守護者とタロット占いアプリが読み込まれました');
