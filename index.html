@@ -1103,15 +1103,16 @@
            } else if (pageNumber === 7) {
                 loadQuestions(detailedQuestions4, 'questions-container-detailed4');
             } else if (pageNumber === 9) {
+                
                 // ジャンル選択画面の初期化処理
                 updateGenreTitle();
+                
                 // ページ9専用のスクロール処理
                 setTimeout(() => {
                     window.scrollTo(0, 0);
                     document.documentElement.scrollTop = 0;
                 }, 150);
-            }
-
+         
             } else if (pageNumber === 10) {
                 // シャッフル画面の初期化
                 setTimeout(() => {
