@@ -1349,6 +1349,97 @@
     showPage(11);
 }
 
+        // カード選択画面の初期化
+let currentCardStep = 1; // 1:今日の状況, 2:今日の展開, 3:アドバイス
+let selectedCardIds = []; // 選択されたカードのID
+
+function initializeCardSelection() {
+    currentCardStep = 1;
+    selectedCardIds = [];
+    cardSelectionStartTime = Date.now();
+    
+    // カードタイトルを更新
+    updateCardSelectionTitle();
+    
+    // カードを表示
+    displayCards();
+}
+
+function updateCardSelectionTitle() {
+    const titles = [
+        "1枚目：今日の状況",
+        "2枚目：今日の展開", 
+        "3枚目：今日のアドバイス"
+    ];
+    
+    document.getElementById('card-selection-title').textContent = titles[currentCardStep - 1];
+    document.getElementById('selection-progress').textContent = `${currentCardStep}/3枚目を選択してください`;
+}
+
+function displayCards() {
+    const container = document.getElementById('cards-container');
+    container.innerHTML = '';
+    
+    // 22枚のカードを表示
+    for (let i = 0; i < 22; i++) {
+        const card = document.createElement('div');
+        card.className = 'tarot-card';
+        card.style.cssText = `
+            min-width: 60px;
+            height: 90px;
+            background: linear-gradient(135deg, #4a6fa5, #6a8fc5);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        `;
+        card.textContent = '🂠';
+        card.onclick = () => selectCard(i);
+        
+        // ホバー効果
+        card.onmouseover = () => {
+            card.style.transform = 'scale(1.05)';
+            card.style.borderColor = 'white';
+        };
+        card.onmouseout = () => {
+            card.style.transform = 'scale(1)';
+            card.style.borderColor = 'transparent';
+        };
+        
+        container.appendChild(card);
+    }
+}
+
+function selectCard(cardIndex) {
+    // 選択時間を記録
+    const selectionTime = Date.now() - cardSelectionStartTime;
+    totalHesitationTime += selectionTime;
+    
+    // カードIDを保存
+    selectedCardIds.push(cardIndex);
+    
+    if (currentCardStep < 3) {
+        // 次のカードへ
+        currentCardStep++;
+        cardSelectionStartTime = Date.now(); // 次のカード選択時間をリセット
+        updateCardSelectionTitle();
+    } else {
+        // 3枚選択完了 → 結果画面へ
+        showTarotResult();
+    }
+}
+
+function showTarotResult() {
+    // 結果画面に移行（次回実装）
+    alert('3枚のカード選択完了！結果画面は次回実装予定です。');
+    showPage(2); // 一旦メニューに戻る
+}
+
 // ページ10表示時にシャッフルアニメーションを開始
 function startShuffleAnimation() {
     const shuffleElement = document.getElementById('shuffle-animation');
