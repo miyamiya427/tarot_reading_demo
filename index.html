@@ -1354,32 +1354,45 @@ const tarotCards = [
         let cardSelectionStartTime = 0;
         let selectedTarotCards = [];
 
-        // タロット占いを開始
-       function startTarotReading(genre) {
-            currentGenre = genre;
-            selectedCards = [];
-            // 一旦アラートで確認（後でページ10を作成）
-            alert(`${genre}の占いを開始します。カード選択画面は次回実装予定です。`);
-            showPage(2); // メニューに戻る
-        }
-
-        // タロット占い関数群
-        function generateTarotSeed() {
-            // シード生成ロジック
-        }
-
-        function selectRandomCards(seed) {
-            // カード選択ロジック
-        }
-
-        function startShuffleAnimation() {
-            // シャッフルアニメーション
-        }
+     
         
         // 初期化
         document.addEventListener('DOMContentLoaded', function() {
             console.log('森の守護者とタロット占いアプリが読み込まれました');
             checkExistingGuardian();
+
+            // タロット占い関数群
+        function generateTarotSeed() {
+            let combinedSeed = 
+                shuffleDuration +           
+                coordinateSeed +           
+                totalHesitationTime +      
+                (Date.now() % 10000);      
+            
+            return combinedSeed;
+        }
+
+        function selectRandomCards(seed) {
+            let random1 = (seed * 9301 + 49297) % 233280;
+            let random2 = (random1 * 9301 + 49297) % 233280;
+            let random3 = (random2 * 9301 + 49297) % 233280;
+            
+            let card1 = random1 % 22;
+            let card2 = random2 % 22;
+            let card3 = random3 % 22;
+            
+            while (card2 === card1) {
+                random2 = (random2 * 9301 + 49297) % 233280;
+                card2 = random2 % 22;
+            }
+            while (card3 === card1 || card3 === card2) {
+                random3 = (random3 * 9301 + 49297) % 233280;
+                card3 = random3 % 22;
+            }
+            
+            return [card1, card2, card3];
+        }
+            
         });
     </script>
 </body>
