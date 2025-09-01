@@ -1552,11 +1552,74 @@ function selectCard(cardIndex) {
 }
 
 function showTarotResult() {
-    // 結果画面に移行（次回実装）
-    alert('3枚のカード選択完了！結果画面は次回実装予定です。');
-    showPage(2); // 一旦メニューに戻る
+    // 選択されたカードの情報を表示
+    displaySelectedCards();
+    
+    // 守護神との統合メッセージを生成
+    generateIntegratedReading();
+    
+    // 結果画面に移行
+    showPage(12);
 }
 
+// 選択されたカードを表示する関数
+function displaySelectedCards() {
+    const cardPositions = ['今日の状況', '今日の展開', '今日のアドバイス'];
+    
+    selectedCardIds.forEach((cardId, index) => {
+        const card = tarotCards[cardId];
+        const cardElement = document.getElementById(`card-${index + 1}`);
+        
+        if (cardElement && card) {
+            cardElement.querySelector('.card-emoji').textContent = card.emoji;
+            cardElement.querySelector('.card-name').textContent = card.name;
+            cardElement.querySelector('.card-position').textContent = cardPositions[index];
+        }
+    });
+}
+
+// 守護神とタロットカードを統合した読み解きを生成
+function generateIntegratedReading() {
+    // 保存された守護神情報を取得
+    const savedGuardian = localStorage.getItem('guardianResult');
+    let guardianData = null;
+    
+    if (savedGuardian) {
+        guardianData = JSON.parse(savedGuardian);
+    }
+    
+    // 選択されたカードの基本情報
+    const selectedCards = selectedCardIds.map(id => tarotCards[id]);
+    
+    // 守護神メッセージを生成
+    const guardianMessage = generateGuardianMessage(guardianData, selectedCards);
+    document.getElementById('guardian-message').textContent = guardianMessage;
+    
+    // 今日の運勢を生成
+    const dailyFortune = generateDailyFortune(selectedCards, guardianData);
+    document.getElementById('daily-fortune').textContent = dailyFortune;
+}
+
+// 守護神からのメッセージを生成
+function generateGuardianMessage(guardianData, cards) {
+    if (!guardianData) {
+        return "守護神診断を受けると、より詳細なメッセージを受け取れます。";
+    }
+    
+    const guardianName = guardianData.name;
+    const firstCard = cards[0];
+    
+    return `${guardianName}があなたに伝えています：「${firstCard.name}」のカードが示すように、今日は${firstCard.meaning}の日となりそうです。あなたの${guardian
+
+  // 今日の運勢を生成
+function generateDailyFortune(cards) {
+    const situation = cards[0];  // 今日の状況
+    const development = cards[1]; // 今日の展開
+    const advice = cards[2];     // 今日のアドバイス
+    
+    return `今日の状況は「${situation.name}」が示す${situation.meaning}となりそうです。「${development.name}」の影響で${development.meaning}が期待できます。「${advice.name}」のアドバイスとして、${advice.upright}を心がけることで、より良い一日を過ごせるでしょう。`;
+}                                                                                                          
+                                                                                                            
 // ページ10表示時にシャッフルアニメーションを開始
 function startShuffleAnimation() {
     const shuffleElement = document.getElementById('shuffle-animation');
