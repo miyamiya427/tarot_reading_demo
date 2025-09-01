@@ -1587,6 +1587,15 @@ function generateIntegratedReading() {
     if (savedGuardian) {
         guardianData = JSON.parse(savedGuardian);
     }
+
+      // 今日の運勢を生成
+function generateDailyFortune(cards) {
+    const situation = cards[0];  // 今日の状況
+    const development = cards[1]; // 今日の展開
+    const advice = cards[2];     // 今日のアドバイス
+    
+    return `今日の状況は「${situation.name}」が示す${situation.meaning}となりそうです。「${development.name}」の影響で${development.meaning}が期待できます。「${advice.name}」のアドバイスとして、${advice.upright}を心がけることで、より良い一日を過ごせるでしょう。`;
+}   
     
     // 選択されたカードの基本情報
     const selectedCards = selectedCardIds.map(id => tarotCards[id]);
@@ -1609,16 +1618,7 @@ function generateGuardianMessage(guardianData, cards) {
     const guardianName = guardianData.name;
     const firstCard = cards[0];
     
-    return `${guardianName}があなたに伝えています：「${firstCard.name}」のカードが示すように、今日は${firstCard.meaning}の日となりそうです。あなたの${guardian
-
-  // 今日の運勢を生成
-function generateDailyFortune(cards) {
-    const situation = cards[0];  // 今日の状況
-    const development = cards[1]; // 今日の展開
-    const advice = cards[2];     // 今日のアドバイス
-    
-    return `今日の状況は「${situation.name}」が示す${situation.meaning}となりそうです。「${development.name}」の影響で${development.meaning}が期待できます。「${advice.name}」のアドバイスとして、${advice.upright}を心がけることで、より良い一日を過ごせるでしょう。`;
-}                                                                                                          
+    return `${guardianName}があなたに伝えています：「${firstCard.name}」のカードが示すように、今日は${firstCard.meaning}の日となりそうです。あなたの${guardianData.traits[0]}を活かして、前向きに進んでいきましょう。`;                                                                                                       
                                                                                                             
 // ページ10表示時にシャッフルアニメーションを開始
 function startShuffleAnimation() {
