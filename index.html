@@ -1306,6 +1306,31 @@
     // シャッフル画面に移行
     showPage(10); // ページ10（シャッフル画面）へ
 }
+
+        function stopShuffle() {
+    // シャッフル停止時間を記録
+    shuffleDuration = Date.now() - shuffleStartTime;
+    
+    // カード選択画面に移行
+    showPage(11);
+}
+
+// ページ10表示時にシャッフルアニメーションを開始
+function startShuffleAnimation() {
+    const shuffleElement = document.getElementById('shuffle-animation');
+    if (shuffleElement) {
+        let animationFrames = ['🃏🃏🃏', '🎴🎴🎴', '🃏🎴🃏', '🎴🃏🎴'];
+        let currentFrame = 0;
+        
+        const interval = setInterval(() => {
+            shuffleElement.textContent = animationFrames[currentFrame];
+            currentFrame = (currentFrame + 1) % animationFrames.length;
+        }, 300);
+        
+        // アニメーション停止のためにintervalを保存
+        window.shuffleInterval = interval;
+    }
+}
         
         // 初期化
         // 保存された守護神をチェック
