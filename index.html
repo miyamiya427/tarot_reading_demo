@@ -1239,6 +1239,51 @@
             }
         }
 
+        // タロット占い関数群
+        function generateTarotSeed() {
+            let combinedSeed = 
+                shuffleDuration +           
+                coordinateSeed +           
+                totalHesitationTime +      
+                (Date.now() % 10000);      
+            
+            return combinedSeed;
+        }
+
+        function selectRandomCards(seed) {
+            let random1 = (seed * 9301 + 49297) % 233280;
+            let random2 = (random1 * 9301 + 49297) % 233280;
+            let random3 = (random2 * 9301 + 49297) % 233280;
+            
+            let card1 = random1 % 22; // 大アルカナ22枚から選択
+            let card2 = random2 % 22;
+            let card3 = random3 % 22;
+            
+            // 同じカードを避ける処理
+            while (card2 === card1) {
+                random2 = (random2 * 9301 + 49297) % 233280;
+                card2 = random2 % 22;
+            }
+            while (card3 === card1 || card3 === card2) {
+                random3 = (random3 * 9301 + 49297) % 233280;
+                card3 = random3 % 22;
+            }
+            
+            return [card1, card2, card3];
+        }
+
+        function startTarotReading(genre) {
+            currentGenre = genre;
+            selectedTarotCards = [];
+            shuffleStartTime = Date.now();
+            coordinateSeed = 0;
+            totalHesitationTime = 0;
+            
+            // シャッフル画面に移行（一旦アラートで確認）
+            alert(`${genre}の占いを開始します。シャッフル画面は次回実装予定です。`);
+            showPage(2); // メニューに戻る
+        }
+        
         // 初期化
         // 保存された守護神をチェック
         function checkExistingGuardian() {
