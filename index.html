@@ -321,7 +321,7 @@
             font-size: 24px;
             font-weight: bold;
             color: #4a6fa5;
-            margin-bottom: 10px;
+            margin-bottom: 0px;
         }
 
         .guardian-traits {
@@ -1659,35 +1659,6 @@ function displayCards() {
     cardsGrid.appendChild(topRow);
     cardsGrid.appendChild(bottomRow);
     container.appendChild(cardsGrid);
-    
-    // シャッフルボタン
-    const shuffleButton = document.createElement('button');
-    shuffleButton.textContent = 'カードをシャッフルする';
-    
-    shuffleButton.style.cssText = `
-        background: rgba(255, 255, 255, 0.9);
-        color: #4a6fa5;
-        border: 2px solid #4a6fa5;
-        padding: 10px 25px;
-        border-radius: 20px;
-        font-size: 14px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        margin: 50px auto 30px auto;
-        display: block;
-        font-weight: bold;
-        white-space: nowrap;
-        width: auto;
-        min-width: 150px;
-        position: relative;
-    `;
-    
-    shuffleButton.onclick = () => {
-        selectedCardForCurrentStep = null;
-        shuffleCards();
-        displayCards();
-    };
-    container.appendChild(shuffleButton);
 }
         
 function selectTopCard() {
