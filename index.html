@@ -1256,32 +1256,10 @@
                 setTimeout(() => {
                     startShuffleAnimation();
                 }, 100);
-            } else if (pageNumber === 11) {
-               
+           } else if (pageNumber === 11) {
                 // カード選択画面の初期化
-        let currentCardStep = 1; // 1:今日の状況, 2:今日の展開, 3:アドバイス
-        let selectedCardIds = []; // 選択されたカードのID
-                
-        
-        function selectCard(cardIndex) {
-    // 選択時間を記録
-    const selectionTime = Date.now() - cardSelectionStartTime;
-    totalHesitationTime += selectionTime;
-    
-    // カードIDを保存
-    selectedCardIds.push(cardIndex);
-    
-    if (currentCardStep < 3) {
-        // 次のカードへ
-        currentCardStep++;
-        cardSelectionStartTime = Date.now(); // 次のカード選択時間をリセット
-        updateCardSelectionTitle();
-        displayCards(); // カードを再表示
-    } else {
-        // 3枚選択完了 → 結果画面へ
-        showTarotResult();
-    }
-}
+                setTimeout(() => {
+                    initializeCardSelection();
                 }, 500);
             }
         }
@@ -1492,6 +1470,26 @@
         let shuffledCardOrder = []; // シャッフルされたカードの順番
         let currentCardStep = 1; // 1:今日の状況, 2:今日の展開, 3:アドバイス
         let selectedCardIds = []; // 選択されたカードのID
+
+        function selectCard(cardIndex) {
+    // 選択時間を記録
+    const selectionTime = Date.now() - cardSelectionStartTime;
+    totalHesitationTime += selectionTime;
+    
+    // カードIDを保存
+    selectedCardIds.push(cardIndex);
+    
+    if (currentCardStep < 3) {
+        // 次のカードへ
+        currentCardStep++;
+        cardSelectionStartTime = Date.now(); // 次のカード選択時間をリセット
+        updateCardSelectionTitle();
+        displayCards(); // カードを再表示
+    } else {
+        // 3枚選択完了 → 結果画面へ
+        showTarotResult();
+    }
+}
 
 function shuffleCards() {
     // 78枚のカードをシャッフル
