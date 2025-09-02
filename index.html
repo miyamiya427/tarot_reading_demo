@@ -1539,11 +1539,18 @@ function displayCards() {
     const topInstructionText = document.createElement('div');
     topInstructionText.style.cssText = `
         text-align: center;
-        margin-bottom: 15px;
-        font-size: 14px;
-        color: #6c757d;
+        margin-bottom: 20px;
+        font-size: 16px;
+        color: #333;
+        line-height: 1.6;
     `;
-    topInstructionText.textContent = '直感でカードを選んでください';
+    
+    const stepNumber = currentCardStep;
+    const stepTitles = ['今日の状況', '今日の展開', '今日のアドバイス'];
+    topInstructionText.innerHTML = `
+        <div style="font-size: 24px; font-weight: bold; margin-bottom: 10px;">${stepNumber}</div>
+        <div style="font-size: 16px; margin-bottom: 5px;">＜${stepTitles[stepNumber - 1]}＞を占うカードを選んでください。</div>
+    `;
     container.appendChild(topInstructionText);
     
     // カードグリッドコンテナ（縦2列の横スクロール）
@@ -1552,10 +1559,10 @@ function displayCards() {
         display: flex;
         flex-direction: column;
         gap: 12px;
-        height: 180px;
+        height: 200px;
         overflow-x: auto;
         overflow-y: hidden;
-        padding: 20px;
+        padding: 25px 20px;
         background: rgba(255, 255, 255, 0.1);
         border-radius: 10px;
         scroll-snap-type: x mandatory;
