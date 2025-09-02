@@ -293,6 +293,12 @@
             font-size: 20px;
             font-weight: bold;
         }
+        
+        #card-selection-title {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #4a6fa5;
+        }
 
         .result-content {
             text-align: center;
@@ -693,7 +699,7 @@
 
             <div class="diagnosis-container">
                 <div class="result-header">
-                    <h2 id="card-selection-title">１．＜今日の状況＞を占います。直感でカードを一枚選んでください。</h2>
+                    <h2 id="card-selection-title">１．＜今日の状況＞を占います。<br>直感でカードを一枚選んでください。</h2>
                 </div>
 
                 <div style="text-align: center; margin: 40px 0;">
@@ -1555,12 +1561,12 @@ function initializeCardSelection() {
 
 function updateCardSelectionTitle() {
     const titles = [
-        "１．＜今日の状況＞を占います。直感でカードを一枚選んでください。",
-        "２．＜今日の展開＞を占います。直感でカードを一枚選んでください。", 
-        "３．＜今日のアドバイス＞を占います。直感でカードを一枚選んでください。"
+        "１．＜今日の状況＞を占います。<br>直感でカードを一枚選んでください。",
+        "２．＜今日の展開＞を占います。<br>直感でカードを一枚選んでください。", 
+        "３．＜今日のアドバイス＞を占います。<br>直感でカードを一枚選んでください。"
     ];
     
-    document.getElementById('card-selection-title').textContent = titles[currentCardStep - 1];
+    document.getElementById('card-selection-title').innerHTML = titles[currentCardStep - 1];
 }
 
 function displayCards() {
