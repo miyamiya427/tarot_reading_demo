@@ -1262,10 +1262,8 @@
         let currentCardStep = 1; // 1:今日の状況, 2:今日の展開, 3:アドバイス
         let selectedCardIds = []; // 選択されたカードのID
                 
-                // カード選択画面の初期化
-        let currentCardStep = 1; // 1:今日の状況, 2:今日の展開, 3:アドバイス
-        let selectedCardIds = []; // 選択されたカードのID
-                function selectCard(cardIndex) {
+        
+        function selectCard(cardIndex) {
     // 選択時間を記録
     const selectionTime = Date.now() - cardSelectionStartTime;
     totalHesitationTime += selectionTime;
@@ -1482,7 +1480,7 @@
     showPage(10); // ページ10（シャッフル画面）へ
 }
 
-        function stopShuffle() {
+       function stopShuffle() {
     // シャッフル停止時間を記録
     shuffleDuration = Date.now() - shuffleStartTime;
     
@@ -1490,7 +1488,10 @@
     showPage(11);
 }
 
+        // カード選択関連の変数
         let shuffledCardOrder = []; // シャッフルされたカードの順番
+        let currentCardStep = 1; // 1:今日の状況, 2:今日の展開, 3:アドバイス
+        let selectedCardIds = []; // 選択されたカードのID
 
 function shuffleCards() {
     // 78枚のカードをシャッフル
