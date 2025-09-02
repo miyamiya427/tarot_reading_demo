@@ -1496,13 +1496,12 @@ function selectCard(cardIndex) {
         selectedCardElement.style.zIndex = '20';
     }
     
-    // 「次へ」ボタンを有効化
+    // ボタンが存在する場合のみ処理
     const nextButton = document.getElementById('next-button');
-    nextButton.style.opacity = '1';
-    nextButton.style.pointerEvents = 'auto';
-    confirmButton.style.opacity = '1';
-    confirmButton.style.pointerEvents = 'auto';
-    confirmButton.onclick = () => confirmCardSelection();
+    if (nextButton) {
+        nextButton.style.opacity = '1';
+        nextButton.style.pointerEvents = 'auto';
+    }
 }
 
 function confirmCardSelection() {
