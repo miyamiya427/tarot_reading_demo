@@ -1493,8 +1493,10 @@ function selectCard(cardIndex) {
         selectedCardElement.style.zIndex = '20';
     }
     
-    // 「これにする」ボタンを有効化
-    const confirmButton = document.getElementById('confirm-button');
+    // 「次へ」ボタンを有効化
+    const nextButton = document.getElementById('next-button');
+    nextButton.style.opacity = '1';
+    nextButton.style.pointerEvents = 'auto';
     confirmButton.style.opacity = '1';
     confirmButton.style.pointerEvents = 'auto';
     confirmButton.onclick = () => confirmCardSelection();
@@ -1569,82 +1571,69 @@ function displayCards() {
     const container = document.getElementById('cards-container');
     container.innerHTML = '';
     
-    // 1. ステップ番号
+    // 1. ステップ番号（大きく中央表示）
     const stepNumber = document.createElement('div');
     stepNumber.style.cssText = `
         text-align: center;
-        font-size: 32px;
+        font-size: 48px;
         font-weight: bold;
         color: #4a6fa5;
-        margin-bottom: 15px;
+        margin-bottom: 20px;
     `;
     stepNumber.textContent = currentCardStep;
     container.appendChild(stepNumber);
     
-    // 2. 説明テキスト
+    // 2. 説明テキスト（中央表示）
     const stepTitles = ['今日の状況', '今日の展開', '今日のアドバイス'];
     const instructionText = document.createElement('div');
     instructionText.style.cssText = `
         text-align: center;
         font-size: 16px;
         color: #333;
-        margin-bottom: 25px;
+        margin-bottom: 30px;
         font-weight: 500;
+        line-height: 1.5;
     `;
-    instructionText.textContent = `＜${stepTitles[currentCardStep - 1]}＞を占うカードを選んでください。`;
+    instructionText.textContent = `＜${stepTitles[currentCardStep - 1]}＞を占うカードを直感で選んでください。`;
     container.appendChild(instructionText);
     
-    // カードグリッドコンテナ（縦2列の横スクロール）
-    const cardsGrid = document.createElement('div');
-    cardsGrid.style.cssText = `
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        height: 200px;
+    // 3. カード表示エリア（横スクロール）
+    const cardsScrollContainer = document.createElement('div');
+    cardsScrollContainer.style.cssText = `
+        width: 100%;
         overflow-x: auto;
         overflow-y: hidden;
-        padding: 25px 20px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 10px;
-        scroll-snap-type: x mandatory;
+        padding: 20px 0;
+        margin-bottom: 25px;
         -webkit-overflow-scrolling: touch;
     `;
     
-    // 上列のカードコンテナ
-    const topRow = document.createElement('div');
-    topRow.style.cssText = `
+    const cardsRow = document.createElement('div');
+    cardsRow.style.cssText = `
         display: flex;
-        gap: 12px;
-        flex: 1;
+        gap: 15px;
+        padding: 0 20px;
+        min-width: max-content;
     `;
     
-    // 下列のカードコンテナ  
-    const bottomRow = document.createElement('div');
-    bottomRow.style.cssText = `
-        display: flex;
-        gap: 12px;
-        flex: 1;
-    `;
-    
-    // シャッフルされた78枚のカードを上下2列に配置
-    shuffledCardOrder.forEach((cardIndex, i) => {
+    // 78枚のカードを横一列に配置
+    shuffledCardOrder.forEach((cardIndex) => {
         const card = document.createElement('div');
         card.className = 'tarot-card';
         card.style.cssText = `
-            width: 55px;
-            height: 70px;
+            width: 60px;
+            height: 90px;
             background: linear-gradient(135deg, #4a6fa5, #6a8fc5);
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 22px;
+            font-size: 24px;
             cursor: pointer;
             transition: all 0.3s ease;
             border: 2px solid transparent;
             flex-shrink: 0;
-            min-width: 55px;
         `;
         card.textContent = '🂠';
         card.setAttribute('data-card-index', cardIndex);
@@ -1652,80 +1641,68 @@ function displayCards() {
         
         // ホバー効果
         card.onmouseover = () => {
-            card.style.transform = 'scale(1.1)';
-            card.style.borderColor = 'white';
-            card.style.zIndex = '10';
+            if (selectedCardForCurrentStep !== cardIndex) {
+                card.style.transform = 'scale(1.05)';
+                card.style.borderColor = 'rgba(255, 255, 255, 0.5)';
+            }
         };
         card.onmouseout = () => {
-            card.style.transform = 'scale(1)';
-            card.style.borderColor = 'transparent';
-            card.style.zIndex = '1';
+            if (selectedCardForCurrentStep !== cardIndex) {
+                card.style.transform = 'scale(1)';
+                card.style.borderColor = 'transparent';
+            }
         };
         
-        // 偶数番目は上列、奇数番目は下列
-        if (i % 2 === 0) {
-            topRow.appendChild(card);
-        } else {
-            bottomRow.appendChild(card);
-        }
+        cardsRow.appendChild(card);
     });
     
-    cardsGrid.appendChild(topRow);
-    cardsGrid.appendChild(bottomRow);
-    container.appendChild(cardsGrid);
+    cardsScrollContainer.appendChild(cardsRow);
+    container.appendChild(cardsScrollContainer);
     
-    // 4. ボタンエリア
-    const buttonArea = document.createElement('div');
-    buttonArea.style.cssText = `
-        text-align: center;
-        margin-top: 20px;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    `;
-    
-    // シャッフルボタン
+    // 4. シャッフルボタン
     const shuffleButton = document.createElement('button');
-    shuffleButton.textContent = 'カードをシャッフル';
+    shuffleButton.textContent = 'カードをシャッフルする';
     shuffleButton.style.cssText = `
-        background: rgba(255, 255, 255, 0.7);
+        background: rgba(255, 255, 255, 0.9);
         color: #4a6fa5;
         border: 2px solid #4a6fa5;
-        padding: 10px 25px;
-        border-radius: 20px;
+        padding: 12px 30px;
+        border-radius: 25px;
         font-size: 14px;
         cursor: pointer;
         transition: all 0.3s ease;
-        margin: 0 auto;
+        margin: 0 auto 20px auto;
+        display: block;
+        font-weight: bold;
     `;
     shuffleButton.onclick = () => {
+        selectedCardForCurrentStep = null;
         shuffleCards();
         displayCards();
     };
+    container.appendChild(shuffleButton);
     
-    // 決定ボタン（最初は非表示）
-    const confirmButton = document.createElement('button');
-    confirmButton.textContent = 'このカードに決める';
-    confirmButton.onclick = () => confirmCardSelection();
-    confirmButton.style.cssText = `
+    // 5. 次へボタン
+    const nextButton = document.createElement('button');
+    nextButton.textContent = '次へ';
+    nextButton.style.cssText = `
         background: #4a6fa5;
         color: white;
         border: none;
-        padding: 12px 30px;
-        border-radius: 20px;
+        padding: 15px 50px;
+        border-radius: 25px;
         font-size: 16px;
         font-weight: bold;
         cursor: pointer;
         transition: all 0.3s ease;
         margin: 0 auto;
+        display: block;
         opacity: 0.5;
         pointer-events: none;
     `;
-    confirmButton.id = 'confirm-button';
-    
-    buttonArea.appendChild(shuffleButton);
-    buttonArea.appendChild(confirmButton);
-    container.appendChild(buttonArea);
+    nextButton.id = 'next-button';
+    nextButton.onclick = () => confirmCardSelection();
+    container.appendChild(nextButton);
 }
 
 function selectTopCard() {
