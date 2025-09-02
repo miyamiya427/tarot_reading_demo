@@ -1666,14 +1666,16 @@ function displayCards() {
         background: rgba(255, 255, 255, 0.9);
         color: #4a6fa5;
         border: 2px solid #4a6fa5;
-        padding: 12px 30px;
-        border-radius: 25px;
-        font-size: 14px;
+        padding: 8px 20px;
+        border-radius: 20px;
+        font-size: 12px;
         cursor: pointer;
         transition: all 0.3s ease;
-        margin: 0 auto 20px auto;
+        margin: 10px auto 25px auto;
         display: block;
-        font-weight: bold;
+        font-weight: normal;
+        width: auto;
+        min-width: 120px;
     `;
     shuffleButton.onclick = () => {
         selectedCardForCurrentStep = null;
