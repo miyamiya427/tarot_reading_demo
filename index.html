@@ -1471,20 +1471,54 @@
         let currentCardStep = 1; // 1:今日の状況, 2:今日の展開, 3:アドバイス
         let selectedCardIds = []; // 選択されたカードのID
 
-        function selectCard(cardIndex) {
+        // カード選択の状態を管理する変数
+let selectedCardForCurrentStep = null;
+
+function selectCard(cardIndex) {
+    // 選択されたカードを記録
+    selectedCardForCurrentStep = cardIndex;
+    
+    // 全カードの選択状態をリセット
+    document.querySelectorAll('.tarot-card').forEach(card => {
+        card.style.borderColor = 'transparent';
+        card.style.transform = 'scale(1)';
+    });
+    
+    // 選択されたカードを強調表示
+    const selectedCardElement = document.querySelector(`[data-card-index="${cardIndex}"]`);
+    if (selectedCardElement) {
+        selectedCardElement.style.borderColor = '#FFD700';
+        selectedCardElement.style.borderWidth = '3px';
+        selectedCardElement.style.transform = 'scale(1.1)';
+        selectedCardElement.style.zIndex = '20';
+    }
+    
+    // 「これにする」ボタンを有効化
+    const confirmButton = document.getElementById('confirm-button');
+    confirmButton.style.opacity = '1';
+    confirmButton.style.pointerEvents = 'auto';
+    confirmButton.onclick = () => confirmCardSelection();
+}
+
+function confirmCardSelection() {
+    if (selectedCardForCurrentStep === null) return;
+    
     // 選択時間を記録
     const selectionTime = Date.now() - cardSelectionStartTime;
     totalHesitationTime += selectionTime;
     
     // カードIDを保存
-    selectedCardIds.push(cardIndex);
+    selectedCardIds.push(selectedCardForCurrentStep);
+    
+    // 選択状態をリセット
+    selectedCardForCurrentStep = null;
     
     if (currentCardStep < 3) {
         // 次のカードへ
         currentCardStep++;
-        cardSelectionStartTime = Date.now(); // 次のカード選択時間をリセット
+        cardSelectionStartTime = Date.now();
         updateCardSelectionTitle();
-        displayCards(); // カードを再表示
+        displayCards();
     } else {
         // 3枚選択完了 → 結果画面へ
         showTarotResult();
@@ -1613,6 +1647,7 @@ function displayCards() {
             min-width: 55px;
         `;
         card.textContent = '🂠';
+        card.setAttribute('data-card-index', cardIndex);
         card.onclick = () => selectCard(cardIndex);
         
         // ホバー効果
@@ -1670,7 +1705,8 @@ function displayCards() {
     
     // 決定ボタン（最初は非表示）
     const confirmButton = document.createElement('button');
-    confirmButton.textContent = 'これにする';
+    confirmButton.textContent = 'このカードに決める';
+    confirmButton.onclick = () => confirmCardSelection();
     confirmButton.style.cssText = `
         background: #4a6fa5;
         color: white;
