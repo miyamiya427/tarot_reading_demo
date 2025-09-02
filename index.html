@@ -1575,10 +1575,10 @@ function displayCards() {
     const stepNumber = document.createElement('div');
     stepNumber.style.cssText = `
         text-align: center;
-        font-size: 48px;
+        font-size: 32px;
         font-weight: bold;
         color: #4a6fa5;
-        margin-bottom: 20px;
+        margin-bottom: 15px;
     `;
     stepNumber.textContent = currentCardStep;
     container.appendChild(stepNumber);
@@ -1590,50 +1590,64 @@ function displayCards() {
         text-align: center;
         font-size: 16px;
         color: #333;
-        margin-bottom: 30px;
+        margin-bottom: 25px;
         font-weight: 500;
-        line-height: 1.5;
     `;
     instructionText.textContent = `＜${stepTitles[currentCardStep - 1]}＞を占うカードを直感で選んでください。`;
     container.appendChild(instructionText);
     
-    // 3. カード表示エリア（横スクロール）
-    const cardsScrollContainer = document.createElement('div');
-    cardsScrollContainer.style.cssText = `
-        width: 100%;
+    // 3. カードグリッドコンテナ（縦2列の横スクロール）
+    const cardsGrid = document.createElement('div');
+    cardsGrid.style.cssText = `
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        height: 200px;
         overflow-x: auto;
         overflow-y: hidden;
-        padding: 20px 0;
-        margin-bottom: 25px;
+        padding: 25px 20px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
+        margin-bottom: 30px;
     `;
     
-    const cardsRow = document.createElement('div');
-    cardsRow.style.cssText = `
+    // 上列のカードコンテナ
+    const topRow = document.createElement('div');
+    topRow.style.cssText = `
         display: flex;
-        gap: 15px;
-        padding: 0 20px;
-        min-width: max-content;
+        gap: 12px;
+        flex: 1;
     `;
     
-    // 78枚のカードを横一列に配置
-    shuffledCardOrder.forEach((cardIndex) => {
+    // 下列のカードコンテナ  
+    const bottomRow = document.createElement('div');
+    bottomRow.style.cssText = `
+        display: flex;
+        gap: 12px;
+        flex: 1;
+    `;
+    
+    // シャッフルされた78枚のカードを上下2列に配置
+    shuffledCardOrder.forEach((cardIndex, i) => {
         const card = document.createElement('div');
         card.className = 'tarot-card';
         card.style.cssText = `
-            width: 60px;
-            height: 90px;
+            width: 55px;
+            height: 70px;
             background: linear-gradient(135deg, #4a6fa5, #6a8fc5);
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 24px;
+            font-size: 22px;
             cursor: pointer;
             transition: all 0.3s ease;
             border: 2px solid transparent;
             flex-shrink: 0;
+            min-width: 55px;
         `;
         card.textContent = '🂠';
         card.setAttribute('data-card-index', cardIndex);
@@ -1642,28 +1656,36 @@ function displayCards() {
         // ホバー効果
         card.onmouseover = () => {
             if (selectedCardForCurrentStep !== cardIndex) {
-                card.style.transform = 'scale(1.05)';
-                card.style.borderColor = 'rgba(255, 255, 255, 0.5)';
+                card.style.transform = 'scale(1.1)';
+                card.style.borderColor = 'white';
+                card.style.zIndex = '10';
             }
         };
         card.onmouseout = () => {
             if (selectedCardForCurrentStep !== cardIndex) {
                 card.style.transform = 'scale(1)';
                 card.style.borderColor = 'transparent';
+                card.style.zIndex = '1';
             }
         };
         
-        cardsRow.appendChild(card);
+        // 偶数番目は上列、奇数番目は下列
+        if (i % 2 === 0) {
+            topRow.appendChild(card);
+        } else {
+            bottomRow.appendChild(card);
+        }
     });
     
-    cardsScrollContainer.appendChild(cardsRow);
-    container.appendChild(cardsScrollContainer);
+    cardsGrid.appendChild(topRow);
+    cardsGrid.appendChild(bottomRow);
+    container.appendChild(cardsGrid);
     
-    // 4. シャッフルボタン
+    // 4. シャッフルボタン（下部に移動、小さめサイズ）
     const shuffleButton = document.createElement('button');
     shuffleButton.textContent = 'カードをシャッフルする';
     shuffleButton.style.cssText = `
-        background: rgba(255, 255, 255, 0.9);
+        background: rgba(255, 255, 255, 0.7);
         color: #4a6fa5;
         border: 2px solid #4a6fa5;
         padding: 8px 20px;
@@ -1671,11 +1693,9 @@ function displayCards() {
         font-size: 12px;
         cursor: pointer;
         transition: all 0.3s ease;
-        margin: 10px auto 25px auto;
+        margin: 0 auto 15px auto;
         display: block;
-        font-weight: normal;
-        width: auto;
-        min-width: 120px;
+        width: 150px;
     `;
     shuffleButton.onclick = () => {
         selectedCardForCurrentStep = null;
@@ -1684,21 +1704,21 @@ function displayCards() {
     };
     container.appendChild(shuffleButton);
     
-    // 5. 次へボタン
+    // 5. 次へボタン（シャッフルボタンと同じサイズ、その下に配置）
     const nextButton = document.createElement('button');
     nextButton.textContent = '次へ';
     nextButton.style.cssText = `
         background: #4a6fa5;
         color: white;
         border: none;
-        padding: 15px 50px;
-        border-radius: 25px;
-        font-size: 16px;
-        font-weight: bold;
+        padding: 8px 20px;
+        border-radius: 20px;
+        font-size: 12px;
         cursor: pointer;
         transition: all 0.3s ease;
         margin: 0 auto;
         display: block;
+        width: 150px;
         opacity: 0.5;
         pointer-events: none;
     `;
@@ -1706,7 +1726,6 @@ function displayCards() {
     nextButton.onclick = () => confirmCardSelection();
     container.appendChild(nextButton);
 }
-
 function selectTopCard() {
     // ランダムにカードを選択（78枚から）
     const randomCardIndex = Math.floor(Math.random() * 78);
