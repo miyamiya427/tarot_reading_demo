@@ -1673,13 +1673,17 @@ function displayCards() {
         font-weight: bold;
         cursor: pointer;
         transition: all 0.3s ease;
-        margin: 200px auto 0 auto;
+        margin: 230px auto 0 auto;
         display: block;
         white-space: nowrap;
         opacity: 0.5;
         pointer-events: none;
         position: relative;
         z-index: 1;
+        width: 120px;
+        text-align: center;
+        left: 50%;
+        transform: translateX(-50%);
     `;
     nextButton.onclick = () => confirmCardSelection();
     container.appendChild(nextButton);
