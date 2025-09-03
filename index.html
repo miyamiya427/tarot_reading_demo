@@ -706,7 +706,7 @@
                     
                     <!-- テキスト削除 -->
                     
-                    <div id="cards-container" style="position: relative; display: flex; justify-content: center; align-items: center; height: 150px; margin: 30px 0; overflow: hidden;">
+                    <div id="cards-container" style="position: relative; display: flex; justify-content: center; align-items: center; height: 150px; margin: 30px 0; overflow-x: visible;">
                         <!-- カードはJavaScriptで生成 -->
                     </div>
                 </div>
@@ -1572,30 +1572,7 @@ function displayCards() {
     const container = document.getElementById('cards-container');
     container.innerHTML = '';
     
-    // 1. ステップ番号（大きく中央表示）
-    const stepNumber = document.createElement('div');
-    stepNumber.style.cssText = `
-        text-align: center;
-        font-size: 32px;
-        font-weight: bold;
-        color: #4a6fa5;
-        margin-bottom: 15px;
-    `;
-    stepNumber.textContent = currentCardStep;
-    container.appendChild(stepNumber);
-    
-    // 2. 説明テキスト（中央表示）
-    const stepTitles = ['今日の状況', '今日の展開', '今日のアドバイス'];
-    const instructionText = document.createElement('div');
-    instructionText.style.cssText = `
-        text-align: center;
-        font-size: 16px;
-        color: #333;
-        margin-bottom: 25px;
-        font-weight: 500;
-    `;
-    instructionText.textContent = `＜${stepTitles[currentCardStep - 1]}＞を占うカードを直感で選んでください。`;
-    container.appendChild(instructionText);
+    // テキスト要素は削除
     
     // 3. カードグリッドコンテナ（縦2列の横スクロール）
     const cardsGrid = document.createElement('div');
@@ -1606,12 +1583,13 @@ function displayCards() {
         height: 200px;
         overflow-x: auto;
         overflow-y: hidden;
-        padding: 25px 20px;
+        padding: 25px 30px 25px 20px;
         background: rgba(255, 255, 255, 0.1);
         border-radius: 10px;
         scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
         margin-bottom: 30px;
+        padding-right: 30px;
     `;
     
     // 上列のカードコンテナ
@@ -1682,48 +1660,31 @@ function displayCards() {
     cardsGrid.appendChild(bottomRow);
     container.appendChild(cardsGrid);
     
-    // 4. シャッフルボタン（下部に移動、小さめサイズ）
-    const shuffleButton = document.createElement('button');
-    shuffleButton.textContent = 'カードをシャッフルする';
-    shuffleButton.style.cssText = `
-        background: rgba(255, 255, 255, 0.7);
-        color: #4a6fa5;
-        border: 2px solid #4a6fa5;
-        padding: 8px 20px;
-        border-radius: 20px;
-        font-size: 12px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        margin: 0 auto 15px auto;
-        display: block;
-        width: 150px;
-    `;
-    shuffleButton.onclick = () => {
-        selectedCardForCurrentStep = null;
-        shuffleCards();
-        displayCards();
-    };
-    container.appendChild(shuffleButton);
-    
-    // 5. 次へボタン（シャッフルボタンと同じサイズ、その下に配置）
+    // 次へボタン
     const nextButton = document.createElement('button');
     nextButton.textContent = '次へ';
+    nextButton.id = 'next-button';
     nextButton.style.cssText = `
         background: #4a6fa5;
         color: white;
         border: none;
-        padding: 8px 20px;
-        border-radius: 20px;
-        font-size: 12px;
+        padding: 12px 30px;
+        border-radius: 25px;
+        font-size: 16px;
+        font-weight: bold;
         cursor: pointer;
         transition: all 0.3s ease;
-        margin: 0 auto;
+        margin: 230px auto 0 auto;
         display: block;
-        width: 150px;
+        white-space: nowrap;
         opacity: 0.5;
         pointer-events: none;
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        width: 100px;
+        transform: translateX(-100px);
     `;
-    nextButton.id = 'next-button';
     nextButton.onclick = () => confirmCardSelection();
     container.appendChild(nextButton);
 }
