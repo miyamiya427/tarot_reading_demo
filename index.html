@@ -706,7 +706,7 @@
                     
                     <!-- テキスト削除 -->
                     
-                    <div id="cards-container" style="position: relative; display: flex; justify-content: center; align-items: center; height: 150px; margin: 30px -10px; overflow: visible;">
+                    <div id="cards-container" style="position: relative; display: flex; justify-content: center; align-items: center; height: 150px; margin: 30px 0; overflow: visible;">
                         <!-- カードはJavaScriptで生成 -->
                     </div>
                 </div>
@@ -1576,19 +1576,22 @@ function displayCards() {
     
     // 3. カードグリッドコンテナ（縦2列の横スクロール）
     const cardsGrid = document.createElement('div');
-    cardsGrid.style.cssText = `
+   cardsGrid.style.cssText = `
         display: flex;
         flex-direction: column;
         gap: 12px;
         height: 200px;
         overflow-x: auto;
         overflow-y: hidden;
-        padding: 25px 20px;
+        padding: 25px 10px;
         background: rgba(255, 255, 255, 0.1);
         border-radius: 10px;
         scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
         margin-bottom: 30px;
+        width: calc(100% + 20px);
+        margin-left: -10px;
+        margin-right: -10px;
     `;
     
     // 上列のカードコンテナ
