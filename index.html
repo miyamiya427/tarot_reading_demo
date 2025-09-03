@@ -706,7 +706,7 @@
                     
                     <!-- テキスト削除 -->
                     
-                    <div id="cards-container" style="position: relative; display: flex; justify-content: center; align-items: center; height: 150px; margin: 30px 0; overflow: visible;">
+                    <div id="cards-container" style="position: relative; display: flex; justify-content: center; align-items: center; height: 150px; margin: 30px 0; overflow-x: visible; overflow-y: visible;">
                         <!-- カードはJavaScriptで生成 -->
                     </div>
                 </div>
@@ -1581,17 +1581,18 @@ function displayCards() {
         flex-direction: column;
         gap: 12px;
         height: 200px;
-        overflow-x: auto;
+        overflow-x: scroll;
         overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
         padding: 25px 10px;
         background: rgba(255, 255, 255, 0.1);
         border-radius: 10px;
         scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
         margin-bottom: 30px;
-        width: calc(100% + 20px);
+        width: calc(100% + 100px);
         margin-left: 40px;
-        margin-right: -30px;
+        margin-right: -60px;
         justify-content: center;
     `;
     
@@ -1602,7 +1603,7 @@ function displayCards() {
         gap: 12px;
         flex: 1;
         justify-content: flex-end;
-        transform: translateX(30px);
+        transform: translateX(50px);
     `;
     
     // 下列のカードコンテナ  
