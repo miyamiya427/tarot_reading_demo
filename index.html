@@ -1669,6 +1669,12 @@ function displayCards() {
     cardsGrid.appendChild(bottomRow);
     container.appendChild(cardsGrid);
     
+    // スクロール位置を中央に設定
+    setTimeout(() => {
+        const maxScroll = cardsGrid.scrollWidth - cardsGrid.clientWidth;
+        cardsGrid.scrollLeft = maxScroll / 2;
+    }, 100);
+    
     // 次へボタン
     const nextButton = document.createElement('button');
     nextButton.textContent = '次へ';
