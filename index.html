@@ -1588,16 +1588,12 @@ function displayCards() {
         height: 200px;
         overflow-x: auto;
         overflow-y: hidden;
-        width: 100%;
-        box-sizing: border-box;
-        padding: 25px 20px 25px 60px;
+        padding: 25px 40px;
         background: rgba(255, 255, 255, 0.1);
         border-radius: 10px;
         scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
-        margin: 30px 0px 30px 0px;
-        padding: 25px 20px;
-        overflow-x: scroll;
+        margin: 30px -65px 30px 35px;
         justify-content: center;
     `;
     
@@ -1616,12 +1612,11 @@ function displayCards() {
         display: flex;
         gap: 12px;
         flex: 1;
-        justify-content: flex-start;
-        min-width: max-content;
+        justify-content: center;
     `;
     
-    // シャッフルされた78枚のカードを上下2列に配置（最初の78枚のみ）
-    shuffledCardOrder.slice(0, 78).forEach((cardIndex, i) => {
+    // シャッフルされた78枚のカードを上下2列に配置
+    shuffledCardOrder.forEach((cardIndex, i) => {
         const card = document.createElement('div');
         card.className = 'tarot-card';
         card.style.cssText = `
