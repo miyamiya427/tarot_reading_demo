@@ -1682,8 +1682,9 @@ function displayCards() {
         z-index: 1;
         width: 120px;
         text-align: center;
-        left: 50%;
-        transform: translateX(-50%);
+        width: 100px;
+        margin-left: auto;
+        margin-right: auto;
     `;
     nextButton.onclick = () => confirmCardSelection();
     container.appendChild(nextButton);
