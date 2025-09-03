@@ -1588,7 +1588,7 @@ function displayCards() {
         border-radius: 10px;
         scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
-        margin-bottom: 10px;
+        margin-bottom: 20px;
     `;
     
     // 上列のカードコンテナ
@@ -1673,11 +1673,13 @@ function displayCards() {
         font-weight: bold;
         cursor: pointer;
         transition: all 0.3s ease;
-        margin: 30px auto 20px auto;
+        margin: 20px auto 0 auto;
         display: block;
         white-space: nowrap;
         opacity: 0.5;
         pointer-events: none;
+        position: relative;
+        z-index: 1;
     `;
     nextButton.onclick = () => confirmCardSelection();
     container.appendChild(nextButton);
