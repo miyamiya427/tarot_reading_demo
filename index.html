@@ -1588,13 +1588,13 @@ function displayCards() {
         height: 200px;
         overflow-x: auto;
         overflow-y: hidden;
-        padding: 25px 40px;
+        padding: 25px 20px;
         background: rgba(255, 255, 255, 0.1);
         border-radius: 10px;
         scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
-        margin: 30px -65px 30px 35px;
-        justify-content: center;
+        margin: 30px -45px 30px 15px;
+        justify-content: flex-start;
     `;
     
     // 上列のカードコンテナ
@@ -1603,7 +1603,8 @@ function displayCards() {
         display: flex;
         gap: 12px;
         flex: 1;
-        justify-content: center;
+        justify-content: flex-start;
+        min-width: 2340px;
     `;
     
     // 下列のカードコンテナ  
@@ -1612,7 +1613,8 @@ function displayCards() {
         display: flex;
         gap: 12px;
         flex: 1;
-        justify-content: center;
+        justify-content: flex-start;
+        min-width: 2340px;
     `;
     
     // シャッフルされた78枚のカードを上下2列に配置
