@@ -417,6 +417,11 @@
 
         // ページ切り替え
         function showPage(pageNumber) {
+    // 即座にスクロールリセット
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+    
     console.log('Attempting to show page:', pageNumber);
     
     document.querySelectorAll('.page').forEach(page => {
@@ -433,8 +438,8 @@
         console.error('Page element not found for page:', pageNumber);
     }
     
-    // ページ最上部にスクロール（強制的に）
-    window.scrollTo(0, 0);
+    // 追加のスクロールリセット
+    window.scrollTo({ top: 0, behavior: 'instant' });
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
     
@@ -673,15 +678,14 @@
             return [card1, card2, card3];
         }
 
-        function startTarotReading(genre) {
+       function startTarotReading(genre) {
     currentGenre = genre;
     selectedTarotCards = [];
     shuffleStartTime = Date.now();
     coordinateSeed = 0;
     totalHesitationTime = 0;
     
-    // シャッフル画面に移行
-    showPage(10); // ページ10（シャッフル画面）へ
+    showPage(10);
 }
 
        function stopShuffle() {
@@ -1112,25 +1116,31 @@ function startShuffleAnimation() {
         // 初期化
         // 保存された守護神をチェック
         function checkExistingGuardian() {
-            const savedResult = localStorage.getItem('guardianResult');
-            if (savedResult) {
-                const guardianData = JSON.parse(savedResult);
-                
-                // 守護神表示エリアを表示
-                document.getElementById('existing-guardian').style.display = 'block';
-                document.getElementById('current-guardian-emoji').textContent = guardianData.emoji;
-                document.getElementById('current-guardian-name').textContent = guardianData.name;
-                
-                // 日付をフォーマット
-                const date = new Date(guardianData.timestamp);
-                const dateString = `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日に診断`;
-                document.getElementById('current-guardian-date').textContent = dateString;
-                
-                // ボタンのテキストを変更
-                const guardianButton = document.querySelector('button[onclick="showPage(3)"]');
-                guardianButton.textContent = '守護神を再診断する';
-            }
+    const savedResult = localStorage.getItem('guardianResult');
+    if (savedResult) {
+        const guardianData = JSON.parse(savedResult);
+        
+        // 守護神表示エリアを表示
+        document.getElementById('existing-guardian').style.display = 'block';
+        document.getElementById('current-guardian-emoji').textContent = guardianData.emoji;
+        document.getElementById('current-guardian-name').textContent = guardianData.name;
+        
+        // 日付をフォーマット
+        const date = new Date(guardianData.timestamp);
+        const dateString = `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日に診断`;
+        document.getElementById('current-guardian-date').textContent = dateString;
+        
+        // ボタンのテキストを変更
+        const guardianButton = document.querySelector('button[onclick="showPage(3)"]');
+        guardianButton.textContent = '守護神を再診断する';
+        
+        // 動物絵文字を非表示にする
+        const animalIcons = document.querySelector('.animal-icons');
+        if (animalIcons) {
+            animalIcons.style.display = 'none';
         }
+    }
+}
 
         // タロット占い関連の変数
         let selectedCards = [];

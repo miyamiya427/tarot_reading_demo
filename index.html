@@ -7,7 +7,7 @@
     <title>森の守護者とタロット占い</title>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="style.css">
-	
+	<link rel="icon" href="data:,">
 </head>
 <body>
     <div class="container">
@@ -44,7 +44,7 @@
         <!-- ページ2: メニュー画面 -->
         <div class="page" id="page2">
             <div class="ribbon-header">
-                <div class="ribbon">TAROT READING</div>
+                <div class="ribbon2">START</div>
             </div>
 
             <div class="animal-icons">
@@ -66,14 +66,14 @@
 
             <div style="text-align: center; margin: 40px 0 80px 0;">
                 
-                <div style="margin-bottom: 20px; font-size: 14px; opacity: 0.9;">
-                    ＼ 性格タイプを登録 ／
-                </div>
-                <button class="btn" onclick="showPage(3)">守護神を確認する</button>
-                
-                <div style="margin: 30px 0 20px 0; font-size: 14px; opacity: 0.9;">
-                    ＼ あなたの直感が重要 ／
-                </div>
+                <div style="margin-bottom: 10px; font-size: 14px; opacity: 0.9;">
+    ＼ 性格タイプを登録 ／
+</div>
+<button class="btn" style="margin-top: 10px;" onclick="showPage(3)">守護神を確認する</button>
+
+<div style="margin: 30px 0 10px 0; font-size: 14px; opacity: 0.9;">
+    ＼ あなたの直感が重要 ／
+</div>
                <button class="btn btn-secondary" onclick="showPage(9)">スリーカードで占う</button>
             </div>
         </div>
@@ -81,7 +81,7 @@
         <!-- ページ3: 性格診断画面（10問） -->
         <div class="page" id="page3">
             <div class="ribbon-header">
-                <div class="ribbon">TAROT READING</div>
+                <div class="ribbon2">性格タイプ診断</div>
             </div>
 
             <div class="diagnosis-container">
@@ -105,7 +105,7 @@
         <!-- ページ4: 詳細診断画面（11-20問） -->
         <div class="page" id="page4">
             <div class="ribbon-header">
-                <div class="ribbon">TAROT READING</div>
+                <div class="ribbon2">性格タイプ診断</div>
             </div>
 
             <div class="diagnosis-container">
@@ -128,7 +128,7 @@
         <!-- ページ5: 詳細診断画面（21-30問） -->
         <div class="page" id="page5">
             <div class="ribbon-header">
-                <div class="ribbon">TAROT READING</div>
+                <div class="ribbon2">性格タイプ診断</div>
             </div>
 
             <div class="diagnosis-container">
@@ -151,7 +151,7 @@
         <!-- ページ6: 詳細診断画面（31-40問） -->
         <div class="page" id="page6">
             <div class="ribbon-header">
-                <div class="ribbon">TAROT READING</div>
+                <div class="ribbon2">性格タイプ診断</div>
             </div>
 
             <div class="diagnosis-container">
@@ -174,7 +174,7 @@
         <!-- ページ7: 詳細診断画面（41-50問） -->
         <div class="page" id="page7">
             <div class="ribbon-header">
-                <div class="ribbon">TAROT READING</div>
+                <div class="ribbon2">性格タイプ診断</div>
             </div>
 
             <div class="diagnosis-container">
@@ -198,7 +198,7 @@
        <!-- ページ8: 診断結果画面 -->
         <div class="page" id="page8">
             <div class="ribbon-header">
-                <div class="ribbon">TAROT READING</div>
+                <div class="ribbon2">診断結果</div>
             </div>
 
             <div class="diagnosis-container">
@@ -233,7 +233,7 @@
    <!-- ページ9: ジャンル選択画面 -->
         <div class="page" id="page9">
             <div class="ribbon-header">
-                <div class="ribbon">TAROT READING</div>
+                <div class="ribbon2">ジャンル選択</div>
             </div>
 
             <div class="diagnosis-container">
@@ -243,25 +243,31 @@
 
                 <div style="text-align: center; margin: 60px 0 40px 0;">
                     <div style="margin-bottom: 30px; font-size: 14px; color: #6c757d;">
-                        占いたい内容を選択してください
+                        あなたが占いたいのは？
                     </div>
                     
-                    <button class="btn" onclick="startTarotReading('today_fortune')">今日の運勢</button>
+                    <button class="btn" style="background: #7894ab; color: white;" onmouseover="this.style.background='#dacc89'; this.style.color='white';" onmouseout="this.style.background='#7894ab'; this.style.color='white';" onclick="startTarotReading('today_fortune')">今日の運勢</button>
+                    
+                    <button class="btn" style="background: #7894ab; color: white; margin-top: 15px;" onmouseover="this.style.background='#dacc89'; this.style.color='white';" onmouseout="this.style.background='#7894ab'; this.style.color='white';" onclick="startTarotReading('today_fortune')">恋愛運</button>
+                    
+<button class="btn" style="background: #7894ab; color: white; margin-top: 15px;" onmouseover="this.style.background='#dacc89'; this.style.color='white';" onmouseout="this.style.background='#7894ab'; this.style.color='white';" onclick="startTarotReading('today_fortune')">仕事運</button>
+
+<button class="btn" style="background: #7894ab; color: white; margin-top: 15px;" onmouseover="this.style.background='#dacc89'; this.style.color='white';" onmouseout="this.style.background='#7894ab'; this.style.color='white';" onclick="startTarotReading('today_fortune')">人間関係</button>
                     
                     <div style="margin-top: 20px; font-size: 12px; color: #6c757d;">
-                        ※他のジャンルは順次追加予定
+                        ※機能は順次追加予定
                     </div>
                 </div>
 
-                <div style="text-align: center;">
-                    <button class="btn btn-secondary" onclick="showPage(2)">戻る</button>
                 </div>
-            </div>
+
+            <button class="btn btn-secondary" onclick="showPage(2)">戻る</button>
+     </div>
      </div>
             <!-- ページ10: カードシャッフル画面 -->
         <div class="page" id="page10">
             <div class="ribbon-header">
-                <div class="ribbon">CARD SHUFFLE</div>
+                <div class="ribbon2">カードシャッフル</div>
             </div>
 
             <div class="diagnosis-container">
@@ -290,7 +296,7 @@
         <!-- ページ11: カード選択画面 -->
         <div class="page" id="page11">
             <div class="ribbon-header">
-                <div class="ribbon">CARD SELECTION</div>
+                <div class="ribbon2">カード選択</div>
             </div>
 
             <div class="diagnosis-container">
@@ -321,7 +327,7 @@
         <!-- ページ12: 占い結果画面 -->
         <div class="page" id="page12">
             <div class="ribbon-header">
-                <div class="ribbon">TAROT RESULT</div>
+                <div class="ribbon2">鑑定結果</div>
             </div>
 
             <div class="diagnosis-container">
@@ -373,7 +379,8 @@
                 </div>
             </div>
         </div>
-
+<!-- 削除 -->
 <script src="script.js"></script>
+
 </body>
 </html>
