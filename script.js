@@ -2,418 +2,20 @@
         // 詳細診断の回答を保存する変数
         let detailedAnswers = {};
 
-        // 性格診断データ（10問）
-        const basicQuestions = [
-            {
-                question: "新しい環境に入った時、あなたは？",
-                optionA: "積極的に行動して変化を楽しむ",
-                scoreA: "ruby_fox",
-                optionB: "全体の様子を観察してから動く",
-                scoreB: "sapphire_hawk"
-            },
-            {
-                question: "友人との関係で大切にするのは？",
-                optionA: "深いつながりと信頼関係",
-                scoreA: "silver_wolf",
-                optionB: "お互いの成長を支え合うこと",
-                scoreB: "emerald_deer"
-            },
-            {
-                question: "困った時、どう対処する？",
-                optionA: "安全で確実な方法を選ぶ",
-                scoreA: "gold_bear",
-                optionB: "創造的で新しい解決策を探す",
-                scoreB: "rainbow_butterfly"
-            },
-            {
-                question: "理想の休日は？",
-                optionA: "直感で決めた場所へ冒険",
-                scoreA: "ruby_fox",
-                optionB: "高い場所から景色を眺める",
-                scoreB: "sapphire_hawk"
-            },
-            {
-                question: "チームワークにおいて？",
-                optionA: "みんなの結束を大切にする",
-                scoreA: "silver_wolf",
-                optionB: "個々の個性を活かそうとする",
-                scoreB: "emerald_deer"
-            },
-            {
-                question: "大きな決断をする時は？",
-                optionA: "慎重に計画を立ててから",
-                scoreA: "gold_bear",
-                optionB: "心が動く方向を信じる",
-                scoreB: "rainbow_butterfly"
-            },
-            {
-                question: "あなたの強みは？",
-                optionA: "素早い判断と適応力",
-                scoreA: "ruby_fox",
-                optionB: "物事を俯瞰して見る力",
-                scoreB: "sapphire_hawk"
-            },
-            {
-                question: "人間関係で重視するのは？",
-                optionA: "仲間との深い絆",
-                scoreA: "silver_wolf",
-                optionB: "相手の気持ちに寄り添うこと",
-                scoreB: "emerald_deer"
-            },
-            {
-                question: "ストレス解消法は？",
-                optionA: "安心できる場所でゆっくり",
-                scoreA: "gold_bear",
-                optionB: "新しい体験や美しいものに触れる",
-                scoreB: "rainbow_butterfly"
-            },
-            {
-                question: "人生で大切にしたいのは？",
-                optionA: "変化と成長のある人生",
-                scoreA: "ruby_fox",
-                optionB: "安定と調和のある人生",
-                scoreB: "gold_bear"
-            }
-        ];
+        // 性格診断データ（10問）- スプレッドシートから取得
+        let basicQuestions = [];
+           
 
-        // 詳細診断データ（30問を3つの10問ずつに分割）
-        const detailedQuestions1 = [
-            {
-                question: "朝起きた時の気分は？",
-                optionA: "今日は何が起こるか楽しみ",
-                scoreA: "ruby_fox",
-                optionB: "今日の計画を整理したい",
-                scoreB: "sapphire_hawk"
-            },
-            {
-                question: "初対面の人との会話では？",
-                optionA: "相手のことを深く知りたい",
-                scoreA: "silver_wolf",
-                optionB: "相手が話しやすい雰囲気を作る",
-                scoreB: "emerald_deer"
-            },
-            {
-                question: "買い物をする時は？",
-                optionA: "必要なものを確実に購入",
-                scoreA: "gold_bear",
-                optionB: "直感で気に入ったものを選ぶ",
-                scoreB: "rainbow_butterfly"
-            },
-            {
-                question: "旅行の計画は？",
-                optionA: "行き当たりばったりで楽しむ",
-                scoreA: "ruby_fox",
-                optionB: "事前にしっかりリサーチ",
-                scoreB: "sapphire_hawk"
-            },
-            {
-                question: "友人が悩んでいる時は？",
-                optionA: "一緒に解決策を考える",
-                scoreA: "silver_wolf",
-                optionB: "まずは話を聞いて共感する",
-                scoreB: "emerald_deer"
-            },
-            {
-                question: "お金の使い方は？",
-                optionA: "将来のために堅実に貯蓄",
-                scoreA: "gold_bear",
-                optionB: "心を豊かにするものに投資",
-                scoreB: "rainbow_butterfly"
-            },
-            {
-                question: "映画を選ぶなら？",
-                optionA: "スリルのあるアクション",
-                scoreA: "ruby_fox",
-                optionB: "壮大なスケールの作品",
-                scoreB: "sapphire_hawk"
-            },
-            {
-                question: "グループ活動では？",
-                optionA: "チーム全体のことを考える",
-                scoreA: "silver_wolf",
-                optionB: "一人一人に気を配る",
-                scoreB: "emerald_deer"
-            },
-            {
-                question: "部屋の雰囲気は？",
-                optionA: "機能的で整理整頓された空間",
-                scoreA: "gold_bear",
-                optionB: "美しく個性的な空間",
-                scoreB: "rainbow_butterfly"
-            },
-            {
-                question: "目標に向かう時は？",
-                optionA: "柔軟に方向転換しながら",
-                scoreA: "ruby_fox",
-                optionB: "長期的視点で着実に進む",
-                scoreB: "sapphire_hawk"
-            }
-        ];
+        // 詳細診断データ - スプレッドシートから取得
+       let detailedQuestions1 = [];
+       let detailedQuestions2 = [];
+       let detailedQuestions3 = [];
+       let detailedQuestions4 = [];
 
-        const detailedQuestions2 = [
-            {
-                question: "理想のデートは？",
-                optionA: "予想のつかないサプライズ",
-                scoreA: "ruby_fox",
-                optionB: "二人で過ごせる特別な場所",
-                scoreB: "sapphire_hawk"
-            },
-            {
-                question: "パートナーに求めるのは？",
-                optionA: "深い信頼関係",
-                scoreA: "silver_wolf",
-                optionB: "互いの成長を支え合える関係",
-                scoreB: "emerald_deer"
-            },
-            {
-                question: "恋愛での悩みは？",
-                optionA: "相手に依存しすぎてしまう",
-                scoreA: "gold_bear",
-                optionB: "自由でいたい気持ちとのバランス",
-                scoreB: "rainbow_butterfly"
-            },
-            {
-                question: "好きになるタイプは？",
-                optionA: "一緒にいて刺激的な人",
-                scoreA: "ruby_fox",
-                optionB: "尊敬できる高い理想を持つ人",
-                scoreB: "sapphire_hawk"
-            },
-            {
-                question: "関係が深まる瞬間は？",
-                optionA: "困った時に支え合った時",
-                scoreA: "silver_wolf",
-                optionB: "相手の優しさに触れた時",
-                scoreB: "emerald_deer"
-            },
-            {
-                question: "将来への不安は？",
-                optionA: "安定した関係を築けるか",
-                scoreA: "gold_bear",
-                optionB: "お互いの個性を保てるか",
-                scoreB: "rainbow_butterfly"
-            },
-            {
-                question: "喧嘩した時は？",
-                optionA: "すぐに話し合いたい",
-                scoreA: "ruby_fox",
-                optionB: "冷静になってから向き合う",
-                scoreB: "sapphire_hawk"
-            },
-            {
-                question: "大切な記念日は？",
-                optionA: "二人だけの時間を重視",
-                scoreA: "silver_wolf",
-                optionB: "心温まる思い出作り",
-                scoreB: "emerald_deer"
-            },
-            {
-                question: "相手の浮気を知ったら？",
-                optionA: "関係の見直しを真剣に考える",
-                scoreA: "gold_bear",
-                optionB: "まずは自分の気持ちを整理",
-                scoreB: "rainbow_butterfly"
-            },
-            {
-                question: "恋愛で成長するのは？",
-                optionA: "新しい自分を発見した時",
-                scoreA: "ruby_fox",
-                optionB: "より大きな愛を感じた時",
-                scoreB: "sapphire_hawk"
-            }
-        ];
 
-        const detailedQuestions3 = [
-            {
-                question: "理想の職場環境は？",
-                optionA: "変化に富んだ刺激的な環境",
-                scoreA: "ruby_fox",
-                optionB: "高い目標に向かえる環境",
-                scoreB: "sapphire_hawk"
-            },
-            {
-                question: "チームでの役割は？",
-                optionA: "メンバーをまとめる調整役",
-                scoreA: "silver_wolf",
-                optionB: "皆をサポートする縁の下の力持ち",
-                scoreB: "emerald_deer"
-            },
-            {
-                question: "仕事のストレスは？",
-                optionA: "安定性への不安",
-                scoreA: "gold_bear",
-                optionB: "創造性が発揮できない時",
-                scoreB: "rainbow_butterfly"
-            },
-            {
-                question: "新しいプロジェクトでは？",
-                optionA: "積極的にアイデアを提案",
-                scoreA: "ruby_fox",
-                optionB: "全体像を把握してから参加",
-                scoreB: "sapphire_hawk"
-            },
-            {
-                question: "同僚との関係は？",
-                optionA: "深い友情を築きたい",
-                scoreA: "silver_wolf",
-                optionB: "互いを尊重し合う関係",
-                scoreB: "emerald_deer"
-            },
-            {
-                question: "キャリアの考え方は？",
-                optionA: "着実にステップアップ",
-                scoreA: "gold_bear",
-                optionB: "自分らしさを大切に",
-                scoreB: "rainbow_butterfly"
-            },
-            {
-                question: "会議での発言は？",
-                optionA: "思いついたらすぐに発言",
-                scoreA: "ruby_fox",
-                optionB: "全体を考えた建設的な意見",
-                scoreB: "sapphire_hawk"
-            },
-            {
-                question: "職場の人間関係で大切なのは？",
-                optionA: "お互いの信頼関係",
-                scoreA: "silver_wolf",
-                optionB: "相手への思いやり",
-                scoreB: "emerald_deer"
-            },
-            {
-                question: "働く上でのモチベーションは？",
-                optionA: "安心して働ける環境",
-                scoreA: "gold_bear",
-                optionB: "自己表現できる喜び",
-                scoreB: "rainbow_butterfly"
-            },
-            {
-                question: "将来の目標は？",
-                optionA: "常に新しいことに挑戦し続ける",
-                scoreA: "ruby_fox",
-                optionB: "多くの人に信頼される存在になる",
-                scoreB: "sapphire_hawk"
-            }
-        ];
-
-        const detailedQuestions4 = [
-            {
-                question: "人生の目標は？",
-                optionA: "常に新しいことに挑戦し続ける",
-                scoreA: "ruby_fox",
-                optionB: "多くの人に信頼される存在になる",
-                scoreB: "sapphire_hawk"
-            },
-            {
-                question: "困難に直面した時は？",
-                optionA: "仲間と協力して乗り越える",
-                scoreA: "silver_wolf",
-                optionB: "自分なりのペースで解決する",
-                scoreB: "emerald_deer"
-            },
-            {
-                question: "成功の定義は？",
-                optionA: "安定した基盤を築くこと",
-                scoreA: "gold_bear",
-                optionB: "自由に自分を表現できること",
-                scoreB: "rainbow_butterfly"
-            },
-            {
-                question: "10年後の自分は？",
-                optionA: "予想もつかない場所にいる",
-                scoreA: "ruby_fox",
-                optionB: "理想に向かって着実に進歩している",
-                scoreB: "sapphire_hawk"
-            },
-            {
-                question: "大切な人を失った時は？",
-                optionA: "みんなで支え合って乗り越える",
-                scoreA: "silver_wolf",
-                optionB: "時間をかけて心を癒す",
-                scoreB: "emerald_deer"
-            },
-            {
-                question: "老後の過ごし方は？",
-                optionA: "安心できる環境でゆっくり",
-                scoreA: "gold_bear",
-                optionB: "新しい趣味や創作活動",
-                scoreB: "rainbow_butterfly"
-            },
-            {
-                question: "人生で学びたいことは？",
-                optionA: "様々な経験から得る知恵",
-                scoreA: "ruby_fox",
-                optionB: "深い専門知識や哲学",
-                scoreB: "sapphire_hawk"
-            },
-            {
-                question: "社会に貢献するなら？",
-                optionA: "チームワークで課題解決",
-                scoreA: "silver_wolf",
-                optionB: "個々のニーズに寄り添う支援",
-                scoreB: "emerald_deer"
-            },
-            {
-                question: "理想の世界は？",
-                optionA: "変化を受け入れる柔軟な社会",
-                scoreA: "ruby_fox",
-                optionB: "美しさと調和に満ちた世界",
-                scoreB: "rainbow_butterfly"
-            },
-            {
-                question: "最後に大切にしたいのは？",
-                optionA: "信頼できる仲間との絆",
-                scoreA: "silver_wolf",
-                optionB: "自分らしく生きた証",
-                scoreB: "emerald_deer"
-            }
-        ];
-
-        // 守護者タイプ情報
-        const guardianTypes = {
-            ruby_fox: { 
-                name: "紅玉の狐", 
-                emoji: "🦊", 
-                traits: ["直感", "変化", "機敏さ"],
-                description: "変化を恐れず直感で進む自由な魂",
-                interpretation: "カードの示す変化を前向きに受け入れ、直感を信じて行動することで道が開けるでしょう。新しい挑戦を恐れず、自分の感覚を信じて進んでください。"
-            },
-            sapphire_hawk: { 
-                name: "蒼天の鷹", 
-                emoji: "🦅", 
-                traits: ["理想", "俯瞰", "高い目標"],
-                description: "全体を見渡し高い理想を追求する賢者",
-                interpretation: "物事を俯瞰的に捉え、高い理想に向かって着実に歩むことで成功を掴めるでしょう。大きな視点を持ち、長期的な目標に向かって進んでください。"
-            },
-            silver_wolf: { 
-                name: "銀月の狼", 
-                emoji: "🐺", 
-                traits: ["絆", "協調", "忠誠心"],
-                description: "人とのつながりを大切にする仲間思い",
-                interpretation: "人間関係や協力関係を重視し、信頼できる仲間と共に困難を乗り越えることができるでしょう。チームワークを大切にし、絆を深めてください。"
-            },
-            emerald_deer: { 
-                name: "翠林の鹿", 
-                emoji: "🦌", 
-                traits: ["癒し", "成長", "穏やかさ"],
-                description: "自然体で着実な成長を重視する優しい魂",
-                interpretation: "焦らず自分のペースで成長し、周囲に癒しと安らぎをもたらす存在となるでしょう。自然体でいることで、真の力を発揮できます。"
-            },
-            gold_bear: { 
-                name: "金剛の熊", 
-                emoji: "🐻", 
-                traits: ["安定", "保護", "堅実さ"],
-                description: "安定と安全を基盤に行動する守護者",
-                interpretation: "慎重で堅実なアプローチを取り、安定した基盤を築くことで長期的な成功を得られるでしょう。着実な歩みを続けることが大切です。"
-            },
-            rainbow_butterfly: { 
-                name: "虹彩の蝶", 
-                emoji: "🦋", 
-                traits: ["変容", "美", "自由"],
-                description: "美しい変化と自由を愛する芸術的な魂",
-                interpretation: "創造性と美的感覚を活かし、自由な発想で新たな可能性を見出すことができるでしょう。変化を楽しみ、美しさを追求してください。"
-            }
-        };
+        // 守護者タイプ情報 - スプレッドシートから取得
+        let guardianTypes = {};
+           
 
         // ページ切り替え
         function showPage(pageNumber) {
@@ -502,6 +104,12 @@
 
         // 質問を読み込み
         function loadQuestions(questions, containerId) {
+    // データが空の場合は待機
+    if (!questions || questions.length === 0) {
+        setTimeout(() => loadQuestions(questions, containerId), 1000);
+        return;
+    }
+    
             const container = document.getElementById(containerId);
             container.innerHTML = '';
             
@@ -715,13 +323,13 @@ function selectCard(cardIndex) {
     });
     
     // 選択されたカードを強調表示
-    const selectedCardElement = document.querySelector(`[data-card-index="${cardIndex}"]`);
-    if (selectedCardElement) {
-        selectedCardElement.style.borderColor = '#B0E0E6';
-        selectedCardElement.style.borderWidth = '3px';
-        selectedCardElement.style.transform = 'scale(1.1)';
-        selectedCardElement.style.zIndex = '20';
-    }
+const selectedCardElement = document.querySelector(`[data-card-index="${cardIndex}"]`);
+if (selectedCardElement) {
+    selectedCardElement.style.borderColor = '#dacc89';
+    selectedCardElement.style.borderWidth = '3px';
+    selectedCardElement.style.transform = 'scale(1.1)';
+    selectedCardElement.style.zIndex = '20';
+}
     
     // ボタンが存在する場合のみ処理
     const nextButton = document.getElementById('next-button');
@@ -804,20 +412,22 @@ function displayCards() {
     // 3. カードグリッドコンテナ（縦2列の横スクロール）
     const cardsGrid = document.createElement('div');
     cardsGrid.style.cssText = `
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        height: 200px;
-        overflow-x: auto;
-        overflow-y: hidden;
-        padding: 25px 20px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 10px;
-        scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
-        margin: 30px -45px 30px 15px;
-        justify-content: flex-start;
-    `;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    height: 200px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 25px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    margin: 110px auto 20px auto;
+    justify-content: center;
+    max-width: 100%;
+    box-sizing: border-box;
+`;
     
     // 上列のカードコンテナ
     const topRow = document.createElement('div');
@@ -844,40 +454,40 @@ function displayCards() {
         const card = document.createElement('div');
         card.className = 'tarot-card';
         card.style.cssText = `
-            width: 55px;
-            height: 70px;
-            background: linear-gradient(135deg, #4a6fa5, #6a8fc5);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 22px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-            flex-shrink: 0;
-            min-width: 55px;
-        `;
-        card.textContent = '🂠';
+    width: 55px;
+    height: 70px;
+    background-image: url('images/card-back.png');
+    background-size: contain;
+background-repeat: no-repeat;
+background-position: center;
+background-color: transparent;
+image-rendering: -webkit-optimize-contrast;
+image-rendering: crisp-edges;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    flex-shrink: 0;
+    min-width: 55px;
+`;
         card.setAttribute('data-card-index', cardIndex);
         card.onclick = () => selectCard(cardIndex);
         
         // ホバー効果
-        card.onmouseover = () => {
-            if (selectedCardForCurrentStep !== cardIndex) {
-                card.style.transform = 'scale(1.1)';
-                card.style.borderColor = 'white';
-                card.style.zIndex = '10';
-            }
-        };
-        card.onmouseout = () => {
-            if (selectedCardForCurrentStep !== cardIndex) {
-                card.style.transform = 'scale(1)';
-                card.style.borderColor = 'transparent';
-                card.style.zIndex = '1';
-            }
-        };
+        // card.onmouseover = () => {
+//     if (selectedCardForCurrentStep !== cardIndex) {
+//         card.style.transform = 'scale(1.1)';
+//         card.style.borderColor = 'white';
+//         card.style.zIndex = '10';
+//     }
+// };
+// card.onmouseout = () => {
+//     if (selectedCardForCurrentStep !== cardIndex) {
+//         card.style.transform = 'scale(1)';
+//         card.style.borderColor = 'transparent';
+//         card.style.zIndex = '1';
+//     }
+// };
         
         // 偶数番目は上列、奇数番目は下列
         if (i % 2 === 0) {
@@ -888,21 +498,36 @@ function displayCards() {
     });
     
     cardsGrid.appendChild(topRow);
-    cardsGrid.appendChild(bottomRow);
-    container.appendChild(cardsGrid);
-    
-    // スクロール位置を中央に設定
-    setTimeout(() => {
-        const maxScroll = cardsGrid.scrollWidth - cardsGrid.clientWidth;
-        cardsGrid.scrollLeft = maxScroll / 2 - 20; // 中央より20px左
-    }, 100);
-    
-    // 次へボタン
-    const nextButton = document.createElement('button');
+cardsGrid.appendChild(bottomRow);
+
+// カードグリッドを包むコンテナを作成
+const cardContainer = document.createElement('div');
+cardContainer.style.cssText = `
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    padding: 0 10px;
+    box-sizing: border-box;
+`;
+
+cardContainer.appendChild(cardsGrid);
+container.appendChild(cardContainer);
+
+// スクロール位置を中央に設定
+setTimeout(() => {
+    const maxScroll = cardsGrid.scrollWidth - cardsGrid.clientWidth;
+    cardsGrid.scrollLeft = maxScroll / 2 - 20; // 中央より20px左
+}, 100);
+
+// 次へボタン
+const nextButton = document.createElement('button');
     nextButton.textContent = '次へ';
     nextButton.id = 'next-button';
     nextButton.style.cssText = `
-        background: #4a6fa5;
+        background: #7894ab;
         color: white;
         border: none;
         padding: 12px 30px;
@@ -911,7 +536,7 @@ function displayCards() {
         font-weight: bold;
         cursor: pointer;
         transition: all 0.3s ease;
-        margin: 300px auto 0 auto;
+        margin: 0px auto 20px auto;
         display: block;
         white-space: nowrap;
         opacity: 0.5;
@@ -920,10 +545,9 @@ function displayCards() {
         z-index: 1;
         text-align: center;
         width: 100px;
-        transform: translateX(-100px);
     `;
     nextButton.onclick = () => confirmCardSelection();
-    container.appendChild(nextButton);
+    cardContainer.appendChild(nextButton);
 }
         
 function selectTopCard() {
@@ -1251,10 +875,123 @@ const tarotCards = [
 
      
         
+        // スプレッドシートからデータを読み込む関数
+async function loadDataFromSheet() {
+    try {
+        const response = await fetch('https://script.google.com/macros/s/AKfycbxHLOOmtITeLWnuIGpwcPCNMk1a4eoPEhwcjSqchDGg1B1cEt1dAVwiWH5hak4qo8un/exec');
+        const data = await response.json();
+        
+        if (data.guardians && data.basicQuestions) {
+    // 守護者データを更新
+    updateGuardianTypes(data.guardians);
+    // 基本質問データを更新
+    updateBasicQuestions(data.basicQuestions);
+    // 詳細質問データを更新
+    updateDetailedQuestions(
+        data.detailedQuestions1,
+        data.detailedQuestions2, 
+        data.detailedQuestions3,
+        data.detailedQuestions4
+    );
+    console.log('データの読み込みが完了しました');
+    // ページ3がアクティブな場合は質問を再読み込み
+    if (document.getElementById('page3').classList.contains('active')) {
+        loadQuestions(basicQuestions, 'questions-container');
+    }
+}
+    } catch (error) {
+        console.error('データ読み込みエラー:', error);
+    }
+}
+
+function updateGuardianTypes(guardianData) {
+    // 既存のguardianTypesを更新
+    guardianData.forEach(guardian => {
+        guardianTypes[guardian.ID] = {
+            name: guardian.名前,
+            emoji: guardian.絵文字,
+            traits: [guardian.特性1, guardian.特性2, guardian.特性3],
+            description: guardian.説明,
+            interpretation: guardian['タロット解釈']
+        };
+    });
+}
+
+function updateBasicQuestions(questionsData) {
+    // 基本質問データを更新
+    basicQuestions.length = 0; // 配列をクリア
+    questionsData.forEach(q => {
+        basicQuestions.push({
+            question: q.質問内容,
+            optionA: q.選択肢A,
+            scoreA: q.得点A,
+            optionB: q.選択肢B,
+            scoreB: q.得点B
+        });
+    });
+}
+
+function updateDetailedQuestions(questionsData1, questionsData2, questionsData3, questionsData4) {
+    // 詳細質問データを更新
+    if (questionsData1) {
+        detailedQuestions1.length = 0;
+        questionsData1.forEach(q => {
+            detailedQuestions1.push({
+                question: q.質問内容,
+                optionA: q.選択肢A,
+                scoreA: q.得点A,
+                optionB: q.選択肢B,
+                scoreB: q.得点B
+            });
+        });
+    }
+    
+    if (questionsData2) {
+        detailedQuestions2.length = 0;
+        questionsData2.forEach(q => {
+            detailedQuestions2.push({
+                question: q.質問内容,
+                optionA: q.選択肢A,
+                scoreA: q.得点A,
+                optionB: q.選択肢B,
+                scoreB: q.得点B
+            });
+        });
+    }
+    
+    if (questionsData3) {
+        detailedQuestions3.length = 0;
+        questionsData3.forEach(q => {
+            detailedQuestions3.push({
+                question: q.質問内容,
+                optionA: q.選択肢A,
+                scoreA: q.得点A,
+                optionB: q.選択肢B,
+                scoreB: q.得点B
+            });
+        });
+    }
+    
+    if (questionsData4) {
+        detailedQuestions4.length = 0;
+        questionsData4.forEach(q => {
+            detailedQuestions4.push({
+                question: q.質問内容,
+                optionA: q.選択肢A,
+                scoreA: q.得点A,
+                optionB: q.選択肢B,
+                scoreB: q.得点B
+            });
+        });
+    }
+}
+        
         // 初期化
         document.addEventListener('DOMContentLoaded', function() {
             console.log('森の守護者とタロット占いアプリが読み込まれました');
             checkExistingGuardian();
+            // スプレッドシートからデータを取得
+           loadDataFromSheet();
 
             // タロット占い関数群
         function generateTarotSeed() {

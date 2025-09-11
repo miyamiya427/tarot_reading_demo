@@ -265,28 +265,27 @@
      </div>
      </div>
             <!-- ページ10: カードシャッフル画面 -->
-        <div class="page" id="page10">
-            <div class="ribbon-header">
-                <div class="ribbon2">カードシャッフル</div>
-            </div>
-
-            <div class="diagnosis-container">
+<div class="page" id="page10">
+    <div class="ribbon-header">
+        <div class="ribbon2">カードシャッフル</div>
+    </div>
+    <div class="diagnosis-container" style="padding-bottom: 20px;">
                 <div class="result-header">
                     <h2>カードをシャッフルしています</h2>
                 </div>
 
-                <div style="text-align: center; margin: 60px 0;">
+               <div style="text-align: center; margin: 30px 0;">
                     <div id="shuffle-animation" style="margin: 40px 0; text-align: center;">
-   <img id="shuffle-image" src="images/shuffle1.png" style="width: 300px; height: 200px;" alt="カードシャッフル">
-</div>
-                    
-                    <div style="font-size: 14px; color: #6c757d; margin: 20px 0;">
-                        心を落ち着けて、直感でタイミングを感じてください
+                     <img id="shuffle-image" src="images/shuffle1.png" style="max-width: 300px; width: 90%; height: auto;" alt="カードシャッフル">
                     </div>
                     
-                    <button class="btn" id="shuffle-stop-btn" onclick="stopShuffle()">
-                        ストップ
-                    </button>
+                    <div style="font-size: 14px; color: #6c757d; margin: 20px 0; line-height: 1.5;">
+                        落ち着いて、直感で、<br>あなたのタイミングでボタンを押してください。
+                    </div>
+                    
+                    <button class="btn" style="background: #7894ab; color: white;" onmouseover="this.style.background='#dacc89'; this.style.color='white';" onmouseout="this.style.background='#7894ab'; this.style.color='white';" id="shuffle-stop-btn" onclick="stopShuffle()">
+    ストップ
+</button>
                 </div>
             </div>
 
@@ -318,9 +317,9 @@
                 </div>
             </div>
 
-            <div style="margin-top: 40px;">
-    <button class="btn btn-secondary" onclick="showPage(10)">戻る</button>
-            </div>
+           
+               <button class="btn btn-secondary" style="margin-top: 10px;" onclick="showPage(9)">戻る</button>
+           
             
         </div>
 
@@ -374,8 +373,8 @@
                 </div>
 
                 <div class="btn-group">
-                    <button class="btn" onclick="shareResult()">結果をシェア</button>
-                    <button class="btn btn-secondary" onclick="showPage(2)">メニューに戻る</button>
+                    <button class="btn" style="background: #7894ab; color: white;" onmouseover="this.style.background='#dacc89'; this.style.color='white';" onmouseout="this.style.background='#7894ab'; this.style.color='white';" onclick="shareResult()">結果をシェア</button>
+                    <button class="btn" style="background: #7894ab; color: white;" onmouseover="this.style.background='#dacc89'; this.style.color='white';" onmouseout="this.style.background='#7894ab'; this.style.color='white';" onclick="showPage(2)">メニューに戻る</button>
                 </div>
             </div>
         </div>
