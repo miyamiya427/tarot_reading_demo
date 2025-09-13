@@ -66,13 +66,38 @@
             if (pageNumber === 3) {
         loadQuestions(basicQuestions, 'questions-container');
     } else if (pageNumber === 4) {
+    // データ読み込み完了を待ってから質問を表示
+    if (detailedQuestions1.length === 0) {
+        setTimeout(() => {
+            loadQuestions(detailedQuestions1, 'questions-container-detailed1');
+        }, 1000);
+    } else {
         loadQuestions(detailedQuestions1, 'questions-container-detailed1');
+    }
     } else if (pageNumber === 5) {
-                loadQuestions(detailedQuestions2, 'questions-container-detailed2');
+    if (detailedQuestions2.length === 0) {
+        setTimeout(() => {
+            loadQuestions(detailedQuestions2, 'questions-container-detailed2');
+        }, 1000);
+    } else {
+        loadQuestions(detailedQuestions2, 'questions-container-detailed2');
+    }
             } else if (pageNumber === 6) {
-                loadQuestions(detailedQuestions3, 'questions-container-detailed3');
+    if (detailedQuestions3.length === 0) {
+        setTimeout(() => {
+            loadQuestions(detailedQuestions3, 'questions-container-detailed3');
+        }, 1000);
+    } else {
+        loadQuestions(detailedQuestions3, 'questions-container-detailed3');
+    }
            } else if (pageNumber === 7) {
-                loadQuestions(detailedQuestions4, 'questions-container-detailed4');
+    if (detailedQuestions4.length === 0) {
+        setTimeout(() => {
+            loadQuestions(detailedQuestions4, 'questions-container-detailed4');
+        }, 1000);
+    } else {
+        loadQuestions(detailedQuestions4, 'questions-container-detailed4');
+    }
             } else if (pageNumber === 9) {
                 
                 // ジャンル選択画面の初期化処理
@@ -201,10 +226,46 @@
                 });
             }
             
-            // 最高スコアの守護者を決定
-            const maxScore = Math.max(...Object.values(scores));
-            const resultType = Object.keys(scores).find(key => scores[key] === maxScore);
-            const guardian = guardianTypes[resultType];
+            // スコアを降順でソート
+            const sortedScores = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+            const firstType = sortedScores[0][0];
+            const firstScore = sortedScores[0][1];
+            const secondType = sortedScores[1] ? sortedScores[1][0] : null;
+            const secondScore = sortedScores[1] ? sortedScores[1][1] : 0;
+
+            // 1位と2位のスコア差で12タイプ判定
+            const scoreDifference = firstScore - secondScore;
+            let finalType = firstType;
+
+            if (secondType && scoreDifference <= 3) {
+                // 差が3以下なら細分化（12タイプ）
+                finalType = determineSubtype(firstType, secondType);
+            }
+
+            const guardian = guardianTypes[finalType];
+            
+            // 12タイプ判定関数
+            function determineSubtype(firstType, secondType) {
+                const subtypeMap = {
+                    'ruby_fox': {
+                        'sapphire_hawk': 'dawn_ruby_fox',    // 理想×直感 = 暁
+                        'silver_wolf': 'dusk_ruby_fox',      // 絆×直感 = 宵
+                        'emerald_deer': 'dusk_ruby_fox',     // 癒し×直感 = 宵
+                        'gold_bear': 'dawn_ruby_fox',        // 安定×直感 = 暁
+                        'rainbow_butterfly': 'dusk_ruby_fox' // 美×直感 = 宵
+                    },
+                    'sapphire_hawk': {
+                        'ruby_fox': 'dawn_sapphire_hawk',       // 直感×理想 = 昇
+                        'silver_wolf': 'dusk_sapphire_hawk',    // 絆×理想 = 翔
+                        'emerald_deer': 'dusk_sapphire_hawk',   // 癒し×理想 = 翔
+                        'gold_bear': 'dawn_sapphire_hawk',      // 安定×理想 = 昇
+                        'rainbow_butterfly': 'dusk_sapphire_hawk' // 美×理想 = 翔
+                    }
+                    // 他のタイプも同様に定義
+                };
+                
+                return subtypeMap[firstType]?.[secondType] || firstType;
+            }
             
             // 結果画面に表示
             showResult(guardian);
@@ -224,7 +285,12 @@
             localStorage.setItem('guardianResult', JSON.stringify(guardianData));
             
             document.getElementById('result-emoji').textContent = guardian.emoji;
-            document.getElementById('result-name').textContent = guardian.name;
+            
+             document.getElementById('result-name').innerHTML = `
+             ${guardian.name}<br>
+             <span class="furigana">${guardian.furigana}</span>
+         `;
+
             document.getElementById('result-traits').textContent = guardian.traits.join('・');
             document.getElementById('result-description').textContent = guardian.description;
             document.getElementById('result-interpretation').textContent = guardian.interpretation;
@@ -878,7 +944,7 @@ const tarotCards = [
         // スプレッドシートからデータを読み込む関数
 async function loadDataFromSheet() {
     try {
-        const response = await fetch('https://script.google.com/macros/s/AKfycbxHLOOmtITeLWnuIGpwcPCNMk1a4eoPEhwcjSqchDGg1B1cEt1dAVwiWH5hak4qo8un/exec');
+        const response = await fetch('https://script.google.com/macros/s/AKfycbyxlFT1QJndFT-oMmY-t0JByl7yObct_mlrEB9MKLyewG3UeapH3FHbnDUKJsZNPblB/exec');
         const data = await response.json();
         
         if (data.guardians && data.basicQuestions) {
