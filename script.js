@@ -1,21 +1,8 @@
 
+
+
         // 詳細診断の回答を保存する変数
         let detailedAnswers = {};
-
-        // 性格診断データ（10問）- スプレッドシートから取得
-        let basicQuestions = [];
-           
-
-        // 詳細診断データ - スプレッドシートから取得
-       let detailedQuestions1 = [];
-       let detailedQuestions2 = [];
-       let detailedQuestions3 = [];
-       let detailedQuestions4 = [];
-
-
-        // 守護者タイプ情報 - スプレッドシートから取得
-        let guardianTypes = {};
-           
 
         // ページ切り替え
         function showPage(pageNumber) {
@@ -64,40 +51,8 @@
             
             // 各ページで必要な質問を読み込み
             if (pageNumber === 3) {
-        loadQuestions(basicQuestions, 'questions-container');
-    } else if (pageNumber === 4) {
-    // データ読み込み完了を待ってから質問を表示
-    if (detailedQuestions1.length === 0) {
-        setTimeout(() => {
-            loadQuestions(detailedQuestions1, 'questions-container-detailed1');
-        }, 1000);
-    } else {
-        loadQuestions(detailedQuestions1, 'questions-container-detailed1');
-    }
-    } else if (pageNumber === 5) {
-    if (detailedQuestions2.length === 0) {
-        setTimeout(() => {
-            loadQuestions(detailedQuestions2, 'questions-container-detailed2');
-        }, 1000);
-    } else {
-        loadQuestions(detailedQuestions2, 'questions-container-detailed2');
-    }
-            } else if (pageNumber === 6) {
-    if (detailedQuestions3.length === 0) {
-        setTimeout(() => {
-            loadQuestions(detailedQuestions3, 'questions-container-detailed3');
-        }, 1000);
-    } else {
-        loadQuestions(detailedQuestions3, 'questions-container-detailed3');
-    }
-           } else if (pageNumber === 7) {
-    if (detailedQuestions4.length === 0) {
-        setTimeout(() => {
-            loadQuestions(detailedQuestions4, 'questions-container-detailed4');
-        }, 1000);
-    } else {
-        loadQuestions(detailedQuestions4, 'questions-container-detailed4');
-    }
+        loadQuestions(diagnosisQuestions, 'questions-container');
+    
             } else if (pageNumber === 9) {
                 
                 // ジャンル選択画面の初期化処理
@@ -155,18 +110,22 @@
                 }
                 
                 questionDiv.innerHTML = `
-                    <div class="question-text">${questionNumber}. ${q.question}</div>
-                    <div class="answer-options">
-                        <label class="option-label" onclick="selectOption(this, '${containerId}_${index}', 'A', '${q.scoreA}')">
-                            <input type="radio" name="${containerId}_q${index}" value="A" data-score="${q.scoreA}">
-                            ${q.optionA}
-                        </label>
-                        <label class="option-label" onclick="selectOption(this, '${containerId}_${index}', 'B', '${q.scoreB}')">
-                            <input type="radio" name="${containerId}_q${index}" value="B" data-score="${q.scoreB}">
-                            ${q.optionB}
-                        </label>
-                    </div>
-                `;
+    <div class="question-text">${questionNumber}. ${q.text}</div>
+    <div class="answer-options">
+        <label class="option-label" onclick="selectOption(this, '${containerId}_${index}', 'A', '${q.options.A.scores.join(",")}')">
+            <input type="radio" name="${containerId}_q${index}" value="A" data-score="${q.options.A.scores.join(",")}">
+            ${q.options.A.text}
+        </label>
+        <label class="option-label" onclick="selectOption(this, '${containerId}_${index}', 'B', '${q.options.B.scores.join(",")}')">
+            <input type="radio" name="${containerId}_q${index}" value="B" data-score="${q.options.B.scores.join(",")}">
+            ${q.options.B.text}
+        </label>
+        <label class="option-label" onclick="selectOption(this, '${containerId}_${index}', 'C', '${q.options.C.scores.join(",")}')">
+            <input type="radio" name="${containerId}_q${index}" value="C" data-score="${q.options.C.scores.join(",")}">
+            ${q.options.C.text}
+        </label>
+    </div>
+`;
                 container.appendChild(questionDiv);
             });
         }
@@ -195,108 +154,49 @@
         }
 
         // 診断完了
-        function completeDiagnosis(isDetailed) {
-            const scores = {};
-            
-            // 基本診断の10問のスコア
-            const basicForm = document.getElementById('questions-container');
-            const basicRadios = basicForm.querySelectorAll('input[type="radio"]:checked');
-            
-            if (basicRadios.length < 10) {
-                alert('基本診断の全ての質問にお答えください。');
-                return;
-            }
-            
-            basicRadios.forEach(radio => {
-                const score = radio.dataset.score;
-                scores[score] = (scores[score] || 0) + 1;
-            });
-            
-            if (isDetailed) {
-                // 詳細診断の回答をスコアに追加
-                const detailedCount = Object.keys(detailedAnswers).length;
-                if (detailedCount < 40) { // 詳細診断は40問
-                    alert('詳細診断の全ての質問にお答えください。');
-                    return;
-                }
-                
-                Object.values(detailedAnswers).forEach(answer => {
-                    const score = answer.score;
-                    scores[score] = (scores[score] || 0) + 1;
-                });
-            }
-            
-            // スコアを降順でソート
-            const sortedScores = Object.entries(scores).sort((a, b) => b[1] - a[1]);
-            const firstType = sortedScores[0][0];
-            const firstScore = sortedScores[0][1];
-            const secondType = sortedScores[1] ? sortedScores[1][0] : null;
-            const secondScore = sortedScores[1] ? sortedScores[1][1] : 0;
-
-            // 1位と2位のスコア差で12タイプ判定
-            const scoreDifference = firstScore - secondScore;
-            let finalType = firstType;
-
-            if (secondType && scoreDifference <= 3) {
-                // 差が3以下なら細分化（12タイプ）
-                finalType = determineSubtype(firstType, secondType);
-            }
-
-            const guardian = guardianTypes[finalType];
-            
-            // 12タイプ判定関数
-            function determineSubtype(firstType, secondType) {
-                const subtypeMap = {
-                    'ruby_fox': {
-                        'sapphire_hawk': 'dawn_ruby_fox',    // 理想×直感 = 暁
-                        'silver_wolf': 'dusk_ruby_fox',      // 絆×直感 = 宵
-                        'emerald_deer': 'dusk_ruby_fox',     // 癒し×直感 = 宵
-                        'gold_bear': 'dawn_ruby_fox',        // 安定×直感 = 暁
-                        'rainbow_butterfly': 'dusk_ruby_fox' // 美×直感 = 宵
-                    },
-                    'sapphire_hawk': {
-                        'ruby_fox': 'dawn_sapphire_hawk',       // 直感×理想 = 昇
-                        'silver_wolf': 'dusk_sapphire_hawk',    // 絆×理想 = 翔
-                        'emerald_deer': 'dusk_sapphire_hawk',   // 癒し×理想 = 翔
-                        'gold_bear': 'dawn_sapphire_hawk',      // 安定×理想 = 昇
-                        'rainbow_butterfly': 'dusk_sapphire_hawk' // 美×理想 = 翔
-                    }
-                    // 他のタイプも同様に定義
-                };
-                
-                return subtypeMap[firstType]?.[secondType] || firstType;
-            }
-            
-            // 結果画面に表示
-            showResult(guardian);
-        }
+        function completeDiagnosis() {
+    // 回答を収集
+    const answers = {};
+    const basicForm = document.getElementById('questions-container');
+    const basicRadios = basicForm.querySelectorAll('input[type="radio"]:checked');
+    
+    if (basicRadios.length < diagnosisQuestions.length) {
+        alert('全ての質問にお答えください。');
+        return;
+    }
+    
+    // 回答をanswersオブジェクトに格納
+    basicRadios.forEach((radio, index) => {
+        answers[index + 1] = radio.value; // A, B, C
+    });
+    
+    try {
+        // 新しい判定ロジックを使用
+        const result = diagnose12Types(answers);
+        const displayData = formatDiagnosisResult(result);
+        saveDiagnosisResult(result);
+        
+        // 結果を表示
+        showResult(displayData);
+        
+    } catch (error) {
+        console.error('診断エラー:', error);
+        alert('診断処理でエラーが発生しました。');
+    }
+}
 
         // 結果を表示
-        function showResult(guardian) {
-            // 診断結果をlocalStorageに保存
-            const guardianData = {
-                name: guardian.name,
-                emoji: guardian.emoji,
-                traits: guardian.traits,
-                description: guardian.description,
-                interpretation: guardian.interpretation,
-                timestamp: new Date().toISOString()
-            };
-            localStorage.setItem('guardianResult', JSON.stringify(guardianData));
-            
-            document.getElementById('result-emoji').textContent = guardian.emoji;
-            
-             document.getElementById('result-name').innerHTML = `
-             ${guardian.name}<br>
-             <span class="furigana">${guardian.furigana}</span>
-         `;
-
-            document.getElementById('result-traits').textContent = guardian.traits.join('・');
-            document.getElementById('result-description').textContent = guardian.description;
-            document.getElementById('result-interpretation').textContent = guardian.interpretation;
-            
-            showPage(8); // 結果ページを表示
-        }
+        function showResult(displayData) {
+    // 診断結果は既にsaveDiagnosisResult()で保存済み
+    
+    document.getElementById('result-emoji').textContent = displayData.emoji;
+    document.getElementById('result-name').textContent = displayData.name;
+    document.getElementById('result-traits').textContent = displayData.traits.join('・');
+    document.getElementById('result-description').textContent = displayData.description;
+    document.getElementById('result-interpretation').textContent = displayData.advice;
+    
+    showPage(8); // 結果ページを表示
+}
 
         // 結果をシェア
         function shareResult() {
@@ -460,11 +360,32 @@ function initializeCardSelection() {
 }
 
 function updateCardSelectionTitle() {
-    const titles = [
+    let titles;
+if (currentGenre === 'love_single') {
+    titles = [
+        "１．＜気になる人の気持ち＞を占います。<br>直感でカードを一枚選んでください。",
+        "２．＜今後の展開＞を占います。<br>直感でカードを一枚選んでください。", 
+        "３．＜あなたへのアドバイス＞を占います。<br>直感でカードを一枚選んでください。"
+    ];
+} else if (currentGenre === 'love_couple') {
+    titles = [
+        "１．＜二人の関係性＞を占います。<br>直感でカードを一枚選んでください。",
+        "２．＜関係の発展＞を占います。<br>直感でカードを一枚選んでください。", 
+        "３．＜関係改善のヒント＞を占います。<br>直感でカードを一枚選んでください。"
+    ];
+} else if (currentGenre === 'love_reconciliation') {
+    titles = [
+        "１．＜相手の現在の気持ち＞を占います。<br>直感でカードを一枚選んでください。",
+        "２．＜復縁の可能性＞を占います。<br>直感でカードを一枚選んでください。", 
+        "３．＜復縁に向けたアドバイス＞を占います。<br>直感でカードを一枚選んでください。"
+    ];
+} else {
+    titles = [
         "１．＜今日の状況＞を占います。<br>直感でカードを一枚選んでください。",
         "２．＜今日の展開＞を占います。<br>直感でカードを一枚選んでください。", 
         "３．＜今日のアドバイス＞を占います。<br>直感でカードを一枚選んでください。"
     ];
+}
     
     document.getElementById('card-selection-title').innerHTML = titles[currentCardStep - 1];
 }
@@ -734,9 +655,20 @@ function generateGuardianMessage(guardianData, cards) {
         return "守護神診断を受けると、より詳細なメッセージを受け取れます。";
     }
     
-    const guardianType = Object.keys(guardianTypes).find(key => 
-        guardianTypes[key].name === guardianData.name
-    );
+    // 12タイプから基本タイプに変換
+let guardianType = Object.keys(guardianTypes12).find(key => 
+    guardianTypes12[key].name === guardianData.name
+);
+
+// 12タイプを6タイプに変換
+if (guardianType) {
+    if (guardianType.includes('ruby_fox')) guardianType = 'ruby_fox';
+    else if (guardianType.includes('sapphire_hawk')) guardianType = 'sapphire_hawk';
+    else if (guardianType.includes('silver_wolf')) guardianType = 'silver_wolf';
+    else if (guardianType.includes('emerald_deer')) guardianType = 'emerald_deer';
+    else if (guardianType.includes('gold_bear')) guardianType = 'gold_bear';
+    else if (guardianType.includes('rainbow_butterfly')) guardianType = 'rainbow_butterfly';
+}
     
     const firstCard = cards[0];
     const isReversed = determineCardOrientation(0);
@@ -746,35 +678,46 @@ function generateGuardianMessage(guardianData, cards) {
 
 // 守護神タイプ別の専用メッセージ
 function generateGuardianSpecificMessage(guardianType, card, isReversed) {
+    // 12タイプから基本タイプに変換
+    let baseType = null;
+    if (guardianType) {
+        if (guardianType.includes('ruby_fox')) baseType = 'ruby_fox';
+        else if (guardianType.includes('sapphire_hawk')) baseType = 'sapphire_hawk';
+        else if (guardianType.includes('silver_wolf')) baseType = 'silver_wolf';
+        else if (guardianType.includes('emerald_deer')) baseType = 'emerald_deer';
+        else if (guardianType.includes('gold_bear')) baseType = 'gold_bear';
+        else if (guardianType.includes('rainbow_butterfly')) baseType = 'rainbow_butterfly';
+    }
+
     const messages = {
         ruby_fox: {
-            upright: `紅玉の狐があなたの直感を讃えています。「${card.name}」は新しい冒険への扉を開く合図です。あなたの素早い判断力を信じて、変化を恐れずに進んでください。`,
-            reversed: `紅玉の狐が慎重さを促しています。「${card.name}」の逆位置は、一度立ち止まって状況を見極める時です。焦らず、内なる声に耳を傾けましょう。`
+            upright: `あなたの守護者が新しい冒険への扉を開く合図を示しています。「${card.name}」は変化を恐れずに進む時です。`,
+            reversed: `あなたの守護者が慎重さを促しています。「${card.name}」の逆位置は立ち止まって考える時です。`
         },
         sapphire_hawk: {
-            upright: `蒼天の鷹があなたの理想を支えています。「${card.name}」は高い視点から物事を捉える大切さを示しています。長期的な目標に向かって着実に歩んでください。`,
-            reversed: `蒼天の鷹が方向性の見直しを提案しています。「${card.name}」の逆位置は、理想と現実のバランスを取る時期です。柔軟性を持って調整していきましょう。`
+            upright: `あなたの守護者が高い視点から物事を捉える大切さを示しています。「${card.name}」は長期的な目標に向かう時です。`,
+            reversed: `あなたの守護者が方向性の見直しを提案しています。「${card.name}」の逆位置は理想と現実のバランスを取る時です。`
         },
         silver_wolf: {
-            upright: `銀月の狼があなたの絆を大切にしています。「${card.name}」は仲間との協力が成功の鍵であることを示しています。信頼関係を深めて共に前進しましょう。`,
-            reversed: `銀月の狼が独立性の重要さを伝えています。「${card.name}」の逆位置は、時には一人の時間も必要だと示しています。自分自身と向き合う時間を作りましょう。`
+            upright: `あなたの守護者が仲間との協力の大切さを示しています。「${card.name}」は信頼関係を深める時です。`,
+            reversed: `あなたの守護者が独立の重要さを伝えています。「${card.name}」の逆位置は自分と向き合う時です。`
         },
         emerald_deer: {
-            upright: `翠林の鹿があなたの優しさを称賛しています。「${card.name}」は癒しと成長の力を表しています。自分らしいペースで、着実に前進していきましょう。`,
-            reversed: `翠林の鹿が休息の必要性を示しています。「${card.name}」の逆位置は、無理をせず自分を労る時です。心と体の声に耳を傾けてください。`
+            upright: `あなたの守護者が癒しと成長の力を示しています。「${card.name}」は自分らしいペースで進む時です。`,
+            reversed: `あなたの守護者が休息の必要性を示しています。「${card.name}」の逆位置は無理をせず労る時です。`
         },
         gold_bear: {
-            upright: `金剛の熊があなたの堅実さを支えています。「${card.name}」は安定した基盤の上に成功を築くことを示しています。慎重かつ確実に歩みを進めましょう。`,
-            reversed: `金剛の熊が柔軟性の大切さを教えています。「${card.name}」の逆位置は、時には新しいアプローチが必要だと示しています。変化を恐れず挑戦してください。`
+            upright: `あなたの守護者が安定した基盤の大切さを示しています。「${card.name}」は慎重に歩みを進める時です。`,
+            reversed: `あなたの守護者が柔軟性の大切さを教えています。「${card.name}」の逆位置は新しいアプローチの時です。`
         },
         rainbow_butterfly: {
-            upright: `虹彩の蝶があなたの創造性を輝かせています。「${card.name}」は美しい変化と自由な発想の時です。芸術的な感性を活かして新しい可能性を探求しましょう。`,
-            reversed: `虹彩の蝶が内なる美しさに気づくよう促しています。「${card.name}」の逆位置は、外的な変化よりも内面の充実が大切な時です。自分の本質と向き合いましょう。`
+            upright: `あなたの守護者が創造性を輝かせる時だと示しています。「${card.name}」は美しい変化の時です。`,
+            reversed: `あなたの守護者が内なる美しさに気づくよう促しています。「${card.name}」の逆位置は内面充実の時です。`
         }
-    };
-    
-    const guardianMessages = messages[guardianType] || messages.ruby_fox;
-    return isReversed ? guardianMessages.reversed : guardianMessages.upright;
+};
+
+const guardianMessages = messages[baseType] || messages.ruby_fox;
+return isReversed ? guardianMessages.reversed : guardianMessages.upright;
 }
 
 // 今日の運勢を生成
@@ -941,123 +884,16 @@ const tarotCards = [
 
      
         
-        // スプレッドシートからデータを読み込む関数
-async function loadDataFromSheet() {
-    try {
-        const response = await fetch('https://script.google.com/macros/s/AKfycbyxlFT1QJndFT-oMmY-t0JByl7yObct_mlrEB9MKLyewG3UeapH3FHbnDUKJsZNPblB/exec');
-        const data = await response.json();
-        
-        if (data.guardians && data.basicQuestions) {
-    // 守護者データを更新
-    updateGuardianTypes(data.guardians);
-    // 基本質問データを更新
-    updateBasicQuestions(data.basicQuestions);
-    // 詳細質問データを更新
-    updateDetailedQuestions(
-        data.detailedQuestions1,
-        data.detailedQuestions2, 
-        data.detailedQuestions3,
-        data.detailedQuestions4
-    );
-    console.log('データの読み込みが完了しました');
-    // ページ3がアクティブな場合は質問を再読み込み
-    if (document.getElementById('page3').classList.contains('active')) {
-        loadQuestions(basicQuestions, 'questions-container');
-    }
-}
-    } catch (error) {
-        console.error('データ読み込みエラー:', error);
-    }
-}
 
-function updateGuardianTypes(guardianData) {
-    // 既存のguardianTypesを更新
-    guardianData.forEach(guardian => {
-        guardianTypes[guardian.ID] = {
-            name: guardian.名前,
-            emoji: guardian.絵文字,
-            traits: [guardian.特性1, guardian.特性2, guardian.特性3],
-            description: guardian.説明,
-            interpretation: guardian['タロット解釈']
-        };
-    });
-}
 
-function updateBasicQuestions(questionsData) {
-    // 基本質問データを更新
-    basicQuestions.length = 0; // 配列をクリア
-    questionsData.forEach(q => {
-        basicQuestions.push({
-            question: q.質問内容,
-            optionA: q.選択肢A,
-            scoreA: q.得点A,
-            optionB: q.選択肢B,
-            scoreB: q.得点B
-        });
-    });
-}
 
-function updateDetailedQuestions(questionsData1, questionsData2, questionsData3, questionsData4) {
-    // 詳細質問データを更新
-    if (questionsData1) {
-        detailedQuestions1.length = 0;
-        questionsData1.forEach(q => {
-            detailedQuestions1.push({
-                question: q.質問内容,
-                optionA: q.選択肢A,
-                scoreA: q.得点A,
-                optionB: q.選択肢B,
-                scoreB: q.得点B
-            });
-        });
-    }
-    
-    if (questionsData2) {
-        detailedQuestions2.length = 0;
-        questionsData2.forEach(q => {
-            detailedQuestions2.push({
-                question: q.質問内容,
-                optionA: q.選択肢A,
-                scoreA: q.得点A,
-                optionB: q.選択肢B,
-                scoreB: q.得点B
-            });
-        });
-    }
-    
-    if (questionsData3) {
-        detailedQuestions3.length = 0;
-        questionsData3.forEach(q => {
-            detailedQuestions3.push({
-                question: q.質問内容,
-                optionA: q.選択肢A,
-                scoreA: q.得点A,
-                optionB: q.選択肢B,
-                scoreB: q.得点B
-            });
-        });
-    }
-    
-    if (questionsData4) {
-        detailedQuestions4.length = 0;
-        questionsData4.forEach(q => {
-            detailedQuestions4.push({
-                question: q.質問内容,
-                optionA: q.選択肢A,
-                scoreA: q.得点A,
-                optionB: q.選択肢B,
-                scoreB: q.得点B
-            });
-        });
-    }
-}
+
         
         // 初期化
         document.addEventListener('DOMContentLoaded', function() {
             console.log('森の守護者とタロット占いアプリが読み込まれました');
             checkExistingGuardian();
-            // スプレッドシートからデータを取得
-           loadDataFromSheet();
+
 
             // タロット占い関数群
         function generateTarotSeed() {
